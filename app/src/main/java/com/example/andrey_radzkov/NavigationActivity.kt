@@ -59,11 +59,14 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
+            android.R.id.home->{
+                drawer_layout.openDrawer(GravityCompat.START)
+                return true
+            }
             R.id.control_points_map -> {
-                val intent = Intent(this, MapNavigationActivity::class.java)
+                val intent = Intent(this, MapsActivity::class.java)
                 intent.putExtra("keyIdentifier", "someVal")
                 startActivity(intent)
-                finish()
             }
             R.id.nav_camera -> {
                 // Handle the camera action
