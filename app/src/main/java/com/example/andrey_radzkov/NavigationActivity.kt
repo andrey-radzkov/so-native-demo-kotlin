@@ -12,7 +12,7 @@ import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_navigation.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
 
-class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -60,15 +60,19 @@ class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemS
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.control_points_map -> {
-                val intent = Intent(this, NavigationActivity::class.java)
+                val intent = Intent(this, MapNavigationActivity::class.java)
                 intent.putExtra("keyIdentifier", "someVal")
                 startActivity(intent)
+                finish()
             }
             R.id.nav_camera -> {
                 // Handle the camera action
             }
             R.id.nav_gallery -> {
-
+                val intent = Intent(this, NavigationActivity::class.java)
+                intent.putExtra("keyIdentifier", "someVal")
+                startActivity(intent)
+                finish()
             }
             R.id.nav_slideshow -> {
 

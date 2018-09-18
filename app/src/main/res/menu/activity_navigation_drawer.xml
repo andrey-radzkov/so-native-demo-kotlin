@@ -6,6 +6,10 @@
     <group android:checkableBehavior="single">
         <!--TODO: icon for map-->
         <item
+            android:id="@+id/nav_gallery"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Start Page" />
+        <item
             android:id="@+id/control_points_map"
             android:icon="@drawable/ic_menu_map"
             android:title="Control Points" />
@@ -13,10 +17,6 @@
             android:id="@+id/nav_camera"
             android:icon="@drawable/ic_menu_camera"
             android:title="Import" />
-        <item
-            android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="Gallery" />
         <item
             android:id="@+id/nav_slideshow"
             android:icon="@drawable/ic_menu_slideshow"
