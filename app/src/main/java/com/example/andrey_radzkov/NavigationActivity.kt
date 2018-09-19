@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
@@ -11,6 +12,9 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_navigation.*
 import kotlinx.android.synthetic.main.app_bar_navigation.*
+import android.support.v4.widget.DrawerLayout
+import android.view.View
+
 
 open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -30,6 +34,7 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+        displaySelectedScreen(R.id.nav_slideshow);
     }
 
     override fun onBackPressed() {
@@ -58,27 +63,33 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        when (item.itemId) {
+              displaySelectedScreen(item.itemId)
+
+        drawer_layout.closeDrawer(GravityCompat.START)
+        return true
+    }
+
+    private fun displaySelectedScreen(itemId: Int) {
+
+        //creating fragment object
+        var fragment: Fragment? = null
+
+        //initializing the fragment object which is selected
+        when (itemId) {
             android.R.id.home->{
                 drawer_layout.openDrawer(GravityCompat.START)
-                return true
             }
             R.id.control_points_map -> {
-                val intent = Intent(this, MapsActivity::class.java)
-                intent.putExtra("keyIdentifier", "someVal")
-                startActivity(intent)
+                fragment = ControlPointsMapFragment()
             }
             R.id.nav_camera -> {
                 // Handle the camera action
             }
             R.id.nav_gallery -> {
-                val intent = Intent(this, NavigationActivity::class.java)
-                intent.putExtra("keyIdentifier", "someVal")
-                startActivity(intent)
-                finish()
+                fragment = Menu2()
             }
             R.id.nav_slideshow -> {
-
+                fragment = Menu3()
             }
             R.id.nav_manage -> {
 
@@ -91,7 +102,14 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
             }
         }
 
-        drawer_layout.closeDrawer(GravityCompat.START)
-        return true
+        //replacing the fragment
+        if (fragment != null) {
+            val ft = supportFragmentManager.beginTransaction()
+            ft.replace(R.id.content_frame, fragment)
+            ft.commit()
+        }
+
+        val drawer = findViewById<View>(R.id.drawer_layout) as DrawerLayout
+        drawer.closeDrawer(GravityCompat.START)
     }
 }
