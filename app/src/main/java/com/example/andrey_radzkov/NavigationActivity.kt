@@ -2,6 +2,7 @@ package com.example.andrey_radzkov
 
 import android.content.Intent
 import android.os.Bundle
+import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
@@ -70,6 +71,8 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
             }
             R.id.nav_camera -> {
                 // Handle the camera action
+                val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
+                startActivityForResult(cameraIntent, 1337)
             }
             R.id.nav_gallery -> {
                 val intent = Intent(this, NavigationActivity::class.java)
