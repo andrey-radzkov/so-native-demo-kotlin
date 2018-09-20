@@ -1,20 +1,16 @@
 package com.example.andrey_radzkov
 
-import android.Manifest
-import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.google.android.gms.maps.MapView
 
 
 /**
@@ -25,7 +21,7 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.control_ponts_map_fragment, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_control_ponts_map, container, false)
         mMapView = rootView.findViewById(R.id.map) as MapView
         mMapView!!.onCreate(savedInstanceState)
         mMapView!!.getMapAsync(this)

@@ -10,8 +10,8 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_navigation.*
-import kotlinx.android.synthetic.main.app_bar_navigation.*
+import kotlinx.android.synthetic.main.navigation_activity.*
+import kotlinx.android.synthetic.main.navigation_app_bar.*
 import android.support.v4.widget.DrawerLayout
 import android.view.View
 
@@ -20,7 +20,7 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_navigation)
+        setContentView(R.layout.navigation_activity)
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
