@@ -55,9 +55,9 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
 //                == PackageManager.PERMISSION_GRANTED) {
 //        mMap.setMyLocationEnabled(true)}
         // Add a marker in Sydney and move the camera
-
-        val goretskogo = "Минск, ул Горецкого"
-        val sharangovicha = "Минск, ул Шаранговича"
+//TODO: async
+        val goretskogo = "ул Горецкого, Минск"
+        val sharangovicha = "ул Шаранговича 52, Минск"
         val minskGoretskogo = getCoordinateByAddress(goretskogo)
         val minskSharangovicha = getCoordinateByAddress(sharangovicha)
         mMap.addMarker(MarkerOptions().position(minskGoretskogo).title(goretskogo))
