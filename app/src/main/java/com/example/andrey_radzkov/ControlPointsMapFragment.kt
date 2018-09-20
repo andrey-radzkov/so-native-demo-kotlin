@@ -1,35 +1,40 @@
 package com.example.andrey_radzkov
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.MapView
+
+
 /**
  * @author Radzkov Andrey
  */
-class ControlPointsMapFragment : Fragment() , OnMapReadyCallback {
+class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
+    var mMapView: MapView? = null
     private lateinit var mMap: GoogleMap
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
-//        val mapFragment = supportFragmentManager
-//                .findFragmentById(R.id.map) as SupportMapFragment
-//        mapFragment.getMapAsync(this)
-        //returning our layout file
-        //change R.layout.yourlayoutfilename for each of your fragments
-        return inflater.inflate(R.layout.control_ponts_map_fragment, container, false)
+        val rootView = inflater.inflate(R.layout.control_ponts_map_fragment, container, false)
+        mMapView = rootView.findViewById(R.id.map) as MapView
+        mMapView!!.onCreate(savedInstanceState)
+        mMapView!!.getMapAsync(this)
+        return rootView
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //you can set the title for your toolbar here for different fragments different titles
         activity!!.title = "Control points"
     }
 
@@ -44,10 +49,13 @@ class ControlPointsMapFragment : Fragment() , OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
+//        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
+//                == PackageManager.PERMISSION_GRANTED) {
+//        mMap.setMyLocationEnabled(true)}
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 5.0f))
+        mMapView!!.onResume()
     }
 }

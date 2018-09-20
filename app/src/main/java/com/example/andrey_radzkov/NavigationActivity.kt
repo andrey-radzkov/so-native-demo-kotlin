@@ -34,7 +34,7 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-        displaySelectedScreen(R.id.nav_slideshow);
+        displaySelectedScreen(R.id.blog_menu_item)
     }
 
     override fun onBackPressed() {
@@ -79,6 +79,9 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
             android.R.id.home->{
                 drawer_layout.openDrawer(GravityCompat.START)
             }
+            R.id.blog_menu_item -> {
+                fragment = Blog()
+            }
             R.id.control_points_map -> {
                 fragment = ControlPointsMapFragment()
             }
@@ -86,9 +89,6 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
                 // Handle the camera action
                 val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
                 startActivityForResult(cameraIntent, 1337)
-            }
-            R.id.nav_gallery -> {
-                fragment = Blog()
             }
             R.id.nav_slideshow -> {
                 fragment = Menu3()

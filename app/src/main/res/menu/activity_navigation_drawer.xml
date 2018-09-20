@@ -4,11 +4,11 @@
     tools:showIn="navigation_view">
 
     <group android:checkableBehavior="single">
-        <!--TODO: icon for map-->
+        <!--TODO: correct icons-->
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/blog_menu_item"
             android:icon="@drawable/ic_menu_gallery"
-            android:title="Start Page" />
+            android:title="Blog" />
         <item
             android:id="@+id/control_points_map"
             android:icon="@drawable/ic_menu_map"
