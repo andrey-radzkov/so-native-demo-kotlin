@@ -2,7 +2,6 @@ package com.example.andrey_radzkov
 
 import android.content.Intent
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
 import android.support.v4.app.Fragment
@@ -89,7 +88,7 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
                 startActivityForResult(cameraIntent, 1337)
             }
             R.id.nav_gallery -> {
-                fragment = Menu2()
+                fragment = Blog()
             }
             R.id.nav_slideshow -> {
                 fragment = Menu3()

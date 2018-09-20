@@ -1,10 +1,5 @@
 package com.example.andrey_radzkov
 
-/**
- * @author Radzkov Andrey
- */
-
-
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -15,12 +10,9 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-
 /**
- * Created by Belal on 18/09/16.
+ * @author Radzkov Andrey
  */
-
-
 class ControlPointsMapFragment : Fragment() , OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
 
