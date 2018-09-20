@@ -1,5 +1,6 @@
 package com.example.andrey_radzkov
 
+import android.location.Geocoder
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import java.util.*
 
 
 /**
@@ -18,13 +20,17 @@ import com.google.android.gms.maps.model.MarkerOptions
  */
 class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
     var mMapView: MapView? = null
+    var geocoder: Geocoder? = null
     private lateinit var mMap: GoogleMap
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_control_ponts_map, container, false)
-        mMapView = rootView.findViewById(R.id.map) as MapView
+        mMapView = rootView.findViewById(R.id.map)
         mMapView!!.onCreate(savedInstanceState)
         mMapView!!.getMapAsync(this)
+
+        geocoder = Geocoder(context, Locale.getDefault())
+
         return rootView
     }
 
@@ -49,9 +55,21 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
 //                == PackageManager.PERMISSION_GRANTED) {
 //        mMap.setMyLocationEnabled(true)}
         // Add a marker in Sydney and move the camera
-        val sydney = LatLng(-34.0, 151.0)
-        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 5.0f))
+
+        val goretskogo = "Минск, ул Горецкого"
+        val sharangovicha = "Минск, ул Шаранговича"
+        val minskGoretskogo = getCoordinateByAddress(goretskogo)
+        val minskSharangovicha = getCoordinateByAddress(sharangovicha)
+        mMap.addMarker(MarkerOptions().position(minskGoretskogo).title(goretskogo))
+        mMap.addMarker(MarkerOptions().position(minskSharangovicha).title(sharangovicha))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(minskGoretskogo, 11.0f))
         mMapView!!.onResume()
+    }
+
+    fun getCoordinateByAddress(address: String): LatLng {
+        val locationsByAddress = geocoder!!.getFromLocationName(address, 1)
+        val foundAddress = locationsByAddress[0]
+        val addressCoordinate = LatLng(foundAddress.latitude, foundAddress.longitude)
+        return addressCoordinate
     }
 }
