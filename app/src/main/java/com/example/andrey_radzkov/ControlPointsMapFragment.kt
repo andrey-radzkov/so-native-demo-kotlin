@@ -1,6 +1,5 @@
 package com.example.andrey_radzkov
 
-import android.location.Address
 import android.location.Geocoder
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -61,19 +60,28 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
         val sharangovicha = "ул Шаранговича 52, Минск"
         val minskGoretskogo = getCoordinateByAddress(goretskogo)
         val minskSharangovicha = getCoordinateByAddress(sharangovicha)
-        mMap.addMarker(MarkerOptions().position(minskGoretskogo!!).title(goretskogo))
-        mMap.addMarker(MarkerOptions().position(minskSharangovicha!!).title(sharangovicha))
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(minskGoretskogo, 11.0f))
+
+        if (minskSharangovicha != null) {
+            mMap.addMarker(MarkerOptions().position(minskSharangovicha).title(sharangovicha))
+        }
+        if (minskGoretskogo != null) {
+            mMap.addMarker(MarkerOptions().position(minskGoretskogo).title(goretskogo))
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(minskGoretskogo, 11.0f))
+        }
+
         mMapView!!.onResume()
     }
 
     fun getCoordinateByAddress(address: String): LatLng? {
-        val locationsByAddress = geocoder!!.getFromLocationName(address, 1)
-        val foundAddress: Address?
-        if (locationsByAddress!!.isNotEmpty()) {
-            foundAddress = locationsByAddress[0]
-            val addressCoordinate = LatLng(foundAddress.latitude, foundAddress.longitude)
-            return addressCoordinate
+        try {
+            val locationsByAddress = geocoder!!.getFromLocationName(address, 1)
+            if (locationsByAddress != null && locationsByAddress.isNotEmpty()) {
+                val foundAddress = locationsByAddress[0]
+                val addressCoordinate = LatLng(foundAddress.latitude, foundAddress.longitude)
+                return addressCoordinate
+            }
+        } catch (e: Exception) {
+            println("no internet")
         }
         return null
     }
