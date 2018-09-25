@@ -80,7 +80,7 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
                 drawer_layout.openDrawer(GravityCompat.START)
             }
             R.id.blog_menu_item -> {
-                fragment = Blog()
+                fragment = BlogFragment()
             }
             R.id.control_points_map -> {
                 fragment = ControlPointsMapFragment()
