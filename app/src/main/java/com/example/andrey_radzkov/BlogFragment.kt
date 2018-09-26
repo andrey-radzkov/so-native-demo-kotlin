@@ -8,7 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ListView
-import com.example.andrey_radzkov.model.CustomAdapter
+import com.example.andrey_radzkov.model.BlogListViewAdapter
 import com.example.andrey_radzkov.model.getArticles
 
 
@@ -18,12 +18,12 @@ import com.example.andrey_radzkov.model.getArticles
 class BlogFragment : Fragment() {
 
     var lv: ListView? = null
-    var adapter: CustomAdapter? = null
+    var adapter: BlogListViewAdapter? = null
 
     @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val inflate = inflater.inflate(R.layout.fragment_blog, container, false)
-        adapter = CustomAdapter(context!!, getArticles())
+        adapter = BlogListViewAdapter(context!!, getArticles())
         lv = inflate.findViewById(R.id.lv) as ListView
         lv!!.adapter = adapter
 //        fab.onClickListener(View.OnClickListener { lv!!.setAdapter(adapter) })

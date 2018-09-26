@@ -6,7 +6,7 @@ import android.widget.TextView
 import com.example.andrey_radzkov.R
 
 
-class MyHolder(v: View) {
+class ArticleView(v: View) {
 
     internal var nameTxt: TextView
     internal var img: ImageView

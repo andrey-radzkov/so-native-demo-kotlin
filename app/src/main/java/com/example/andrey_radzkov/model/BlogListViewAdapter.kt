@@ -8,7 +8,7 @@ import android.widget.BaseAdapter
 import com.example.andrey_radzkov.R
 
 
-class CustomAdapter(internal var c: Context, internal var tvShows: List<Article>) : BaseAdapter() {
+class BlogListViewAdapter(internal var c: Context, internal var tvShows: List<Article>) : BaseAdapter() {
     internal var inflater: LayoutInflater? = null
 
     override fun getCount(): Int {
@@ -30,13 +30,13 @@ class CustomAdapter(internal var c: Context, internal var tvShows: List<Article>
         }
 
         if (convertView == null) {
-            convertView = inflater!!.inflate(R.layout.model, parent, false)
+            convertView = inflater!!.inflate(R.layout.article, parent, false)
 
         }
 
         //BIND DATA
-        val holder = MyHolder(convertView!!)
-        holder.nameTxt.setText(tvShows[position].title)
+        val holder = ArticleView(convertView!!)
+        holder.nameTxt.text = tvShows[position].title
         downloadImage(c, tvShows[position].image, holder.img)
 
         return convertView
