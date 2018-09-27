@@ -4,7 +4,7 @@
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     card_view:cardCornerRadius="0dp"
     card_view:cardElevation="0dp"
-    card_view:contentPaddingBottom="24dp"
+    card_view:contentPaddingBottom="48dp"
     card_view:contentPaddingTop="0dp"
 
     android:layout_height="wrap_content">
@@ -14,8 +14,10 @@
         android:layout_height="match_parent">
 
         <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
             android:id="@+id/movieImage"
             android:padding="0dp"
             android:src="@drawable/placeholder" />
@@ -23,28 +25,15 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="Name"
             android:id="@+id/nameTxt"
             android:padding="10dp"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/colorPrimaryDark"
             android:layout_below="@+id/movieImage"
             android:layout_alignParentLeft="true"
              />
 
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="TV Show"
-            android:id="@+id/posTxt"
-            android:padding="10dp"
-
-            android:layout_below="@+id/movieImage"
-            android:layout_alignParentRight="true" />
-        
 
     </RelativeLayout>
 </android.support.v7.widget.CardView>
