@@ -37,6 +37,7 @@ class BlogListViewAdapter(internal var c: Context, internal var tvShows: List<Ar
         //BIND DATA
         val holder = ArticleView(convertView!!)
         holder.nameTxt.text = tvShows[position].title
+        holder.shortDescription.text = tvShows[position].shortText
         downloadImage(c, tvShows[position].image, holder.img)
 
         return convertView
