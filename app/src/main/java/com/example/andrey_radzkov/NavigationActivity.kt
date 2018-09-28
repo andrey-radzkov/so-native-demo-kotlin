@@ -90,8 +90,8 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
                 val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
                 startActivityForResult(cameraIntent, 1337)
             }
-            R.id.nav_slideshow -> {
-                fragment = Menu3()
+            R.id.nav_voice_control -> {
+                fragment = VoiceControlFragment()
             }
             R.id.nav_manage -> {
 
