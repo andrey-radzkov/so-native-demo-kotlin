@@ -2,18 +2,20 @@ package com.example.andrey_radzkov
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.design.widget.NavigationView
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.navigation_activity.*
-import kotlinx.android.synthetic.main.navigation_app_bar.*
-import android.support.v4.widget.DrawerLayout
 import android.view.View
+import kotlinx.android.synthetic.main.navigation_activity.drawer_layout
+import kotlinx.android.synthetic.main.navigation_activity.nav_view
+import kotlinx.android.synthetic.main.navigation_app_bar.fab
+import kotlinx.android.synthetic.main.navigation_app_bar.toolbar
 
 
 open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -34,7 +36,9 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-        displaySelectedScreen(R.id.blog_menu_item)
+        if (null == savedInstanceState) {
+            displaySelectedScreen(R.id.blog_menu_item)
+        }
     }
 
     override fun onBackPressed() {
@@ -63,20 +67,18 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-              displaySelectedScreen(item.itemId)
+        displaySelectedScreen(item.itemId)
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
 
     private fun displaySelectedScreen(itemId: Int) {
-
-        //creating fragment object
         var fragment: Fragment? = null
 
         //initializing the fragment object which is selected
         when (itemId) {
-            android.R.id.home->{
+            android.R.id.home -> {
                 drawer_layout.openDrawer(GravityCompat.START)
             }
             R.id.blog_menu_item -> {
@@ -107,7 +109,7 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
         //replacing the fragment
         if (fragment != null) {
             val ft = supportFragmentManager.beginTransaction()
-            ft.replace(R.id.content_frame, fragment)
+            ft.replace(R.id.content_frame, fragment!!)
             ft.commit()
         }
 
