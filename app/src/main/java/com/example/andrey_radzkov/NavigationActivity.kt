@@ -94,7 +94,7 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
                 fragment = VoiceControlFragment()
             }
             R.id.nav_manage -> {
-
+                fragment = ServiceStateFragment()
             }
             R.id.nav_share -> {
 
