@@ -7,11 +7,11 @@
         android:id="@+id/serviceStateText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="Services"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textColor="@color/colorPrimaryDark"
-        android:text="Services"/>
+        android:textColor="@color/colorPrimaryDark" />
 
     <Button
         android:id="@+id/loginService"
@@ -19,7 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/serviceStateText"
         android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/circle"
@@ -27,17 +26,15 @@
         android:text="Login"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorPrimaryDark" />
-<!--TODO: flex layout-->
-<!--TODO: Drive and usual modes-->
+    <!--TODO: flex layout-->
     <Button
         android:id="@+id/slmService"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginService"
         android:layout_alignStart="@+id/serviceStateText"
-        android:layout_centerVertical="true"
-        android:layout_marginTop="-120dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="-120dp"
         android:background="@drawable/circle"
         android:paddingBottom="8dp"
         android:text="SLM"
@@ -45,5 +42,16 @@
         android:textColor="@color/colorPrimaryDark" />
 
 
+    <Button
+        android:id="@+id/switchMode"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignStart="@+id/serviceStateText"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginEnd="16dp"
+        android:text="Switch mode" />
 
 </RelativeLayout>
