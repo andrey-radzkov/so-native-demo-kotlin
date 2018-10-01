@@ -1,7 +1,9 @@
 package com.example.andrey_radzkov
 
 import android.Manifest
+import android.content.Context
 import android.content.pm.PackageManager
+import android.media.AudioManager
 import android.media.MediaPlayer
 import android.media.MediaRecorder
 import android.os.Bundle
@@ -15,6 +17,7 @@ import android.widget.Button
 import android.widget.TextView
 import java.io.File
 import java.io.IOException
+
 
 /**
  * @author Radzkov Andrey
@@ -67,6 +70,7 @@ class VoiceControlFragment : Fragment(), MediaPlayer.OnCompletionListener {
             recorder.start()
             statusText.text = "Recording"
             buttonRecord.setEnabled(false)
+            buttonPlay.setEnabled(false)
             buttonStop.setEnabled(true)
 
         }
@@ -93,6 +97,10 @@ class VoiceControlFragment : Fragment(), MediaPlayer.OnCompletionListener {
         }
 
         buttonPlay.setOnClickListener {
+
+            val am = rootView.context.getSystemService(Context.AUDIO_SERVICE) as AudioManager?
+            am!!.setStreamVolume(AudioManager.STREAM_MUSIC, am.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0)
+
             player.start()
             buttonRecord.setEnabled(false)
             buttonStop.setEnabled(false)
@@ -107,7 +115,7 @@ class VoiceControlFragment : Fragment(), MediaPlayer.OnCompletionListener {
     override fun onCompletion(mp: MediaPlayer) {
         buttonRecord.setEnabled(true)
         buttonStop.setEnabled(false)
-        buttonPlay.setEnabled(false)
+        buttonPlay.setEnabled(true)
         statusText.setText("Ready")
     }
 
