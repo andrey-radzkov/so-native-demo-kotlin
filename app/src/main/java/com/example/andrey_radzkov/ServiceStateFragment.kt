@@ -38,5 +38,17 @@ class ServiceStateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //you can set the title for your toolbar here for different fragments different titles
         activity!!.title = "Services state"
+        if (savedInstanceState != null) {
+            val rotationX = savedInstanceState.getFloat("rotationX")
+            buttonLogin.rotationX = rotationX
+            buttonSlm.rotationX = rotationX
+            header.rotationX = rotationX
+        }
     }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putFloat("rotationX", buttonLogin.rotationX)
+    }
+
 }
