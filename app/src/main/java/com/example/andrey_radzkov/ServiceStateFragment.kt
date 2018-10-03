@@ -56,15 +56,22 @@ class ServiceStateFragment : Fragment() {
         activity!!.title = "Services state"
         if (savedInstanceState != null) {
             val rotationX = savedInstanceState.getFloat("rotationX")
+            val color = savedInstanceState.getInt("color")
             buttonLogin.rotationX = rotationX
             buttonSlm.rotationX = rotationX
             header.rotationX = rotationX
+            layout.setBackgroundColor(color)
+            if (color == Color.BLACK) {
+                isBlack = true
+            }
+
         }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putFloat("rotationX", buttonLogin.rotationX)
+        outState.putInt("color", if (isBlack) Color.BLACK else Color.WHITE)
     }
 
 }
