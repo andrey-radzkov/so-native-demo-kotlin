@@ -1,8 +1,14 @@
 package com.example.andrey_radzkov
 
+import android.app.NotificationManager
+import android.app.PendingIntent
+import android.content.Intent
 import android.location.Geocoder
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.app.NotificationCompat
+import android.support.v4.app.TaskStackBuilder
+import android.support.v4.content.ContextCompat.getSystemService
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -30,6 +36,36 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
         mMapView!!.getMapAsync(this)
 
         geocoder = Geocoder(context, Locale.getDefault())
+
+
+        val mBuilder = NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("My notification")
+                .setContentText("Hello World2!")
+        // Creates an explicit intent for an Activity in your app
+        val resultIntent = Intent(context, NavigationActivity::class.java)
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+        // This ensures that navigating backward from the Activity leads out of
+        // your application to the Home screen.
+        val stackBuilder = TaskStackBuilder.create(context!!)
+        // Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(NavigationActivity::class.java)
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent)
+        val resultPendingIntent = stackBuilder.getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        mBuilder.setContentIntent(resultPendingIntent)
+        val mNotificationManager = getSystemService(context!!, NotificationManager::class.java) as NotificationManager
+        // mId allows you to update the notification later on.
+        val id = 1
+        mNotificationManager.notify(id, mBuilder.build())
+
+
+
 
         return rootView
     }
