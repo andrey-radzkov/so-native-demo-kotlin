@@ -3,8 +3,12 @@ package com.example.andrey_radzkov
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
+import android.graphics.Color
 import android.location.Geocoder
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
+import android.support.annotation.RequiresApi
 import android.support.v4.app.Fragment
 import android.support.v4.app.NotificationCompat
 import android.support.v4.app.TaskStackBuilder
@@ -29,6 +33,7 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
     var geocoder: Geocoder? = null
     private lateinit var mMap: GoogleMap
 
+    @RequiresApi(Build.VERSION_CODES.N)
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_control_ponts_map, container, false)
         mMapView = rootView.findViewById(R.id.map)
@@ -42,6 +47,11 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle("My notification")
                 .setContentText("Hello World2!")
+                .setAutoCancel(true)
+                .setVibrate(longArrayOf(150, 100, 150, 100))
+                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                .setLights(Color.RED, 3000, 3000)
+                .setPriority(2)
         // Creates an explicit intent for an Activity in your app
         val resultIntent = Intent(context, NavigationActivity::class.java)
 
