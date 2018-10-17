@@ -1,5 +1,6 @@
 package com.example.andrey_radzkov
 
+import android.app.Notification
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Intent
@@ -112,7 +113,7 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
             R.id.nav_send -> {
                 val handler = Handler()
                 handler.postDelayed({
-                    val notificationBoilder = NotificationCompat.Builder(applicationContext)
+                    val notificationBuilder = NotificationCompat.Builder(applicationContext)
                             .setSmallIcon(R.drawable.ic_launcher_background)
                             .setContentTitle("My notification")
                             .setContentText("Hello World2!")
@@ -120,7 +121,8 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
                             .setVibrate(longArrayOf(150, 100, 150, 100))
                             .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
                             .setLights(Color.RED, 3000, 3000)
-                            .setPriority(2)
+                            .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                            .setPriority(NotificationCompat.PRIORITY_MAX)
                     // Creates an explicit intent for an Activity in your app
                     val resultIntent = Intent(applicationContext, NavigationActivity::class.java)
 
@@ -137,12 +139,14 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
                             0,
                             PendingIntent.FLAG_UPDATE_CURRENT
                     )
-                    notificationBoilder.setContentIntent(resultPendingIntent)
+                    notificationBuilder.setContentIntent(resultPendingIntent)
                     val mNotificationManager = ContextCompat.getSystemService(applicationContext!!, NotificationManager::class.java) as NotificationManager
                     // mId allows you to update the notification later on.
                     val id = 1
-                    mNotificationManager.notify(id, notificationBoilder.build())
-                }, 5000)
+                    val notification = notificationBuilder.build()
+
+                    mNotificationManager.notify(id, notification)
+                }, 3000)
             }
         }
 
