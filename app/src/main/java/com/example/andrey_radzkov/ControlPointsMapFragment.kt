@@ -39,44 +39,7 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
         mMapView = rootView.findViewById(R.id.map)
         mMapView!!.onCreate(savedInstanceState)
         mMapView!!.getMapAsync(this)
-
         geocoder = Geocoder(context, Locale.getDefault())
-
-
-        val mBuilder = NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.ic_launcher_background)
-                .setContentTitle("My notification")
-                .setContentText("Hello World2!")
-                .setAutoCancel(true)
-                .setVibrate(longArrayOf(150, 100, 150, 100))
-                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                .setLights(Color.RED, 3000, 3000)
-                .setPriority(2)
-        // Creates an explicit intent for an Activity in your app
-        val resultIntent = Intent(context, NavigationActivity::class.java)
-
-        // The stack builder object will contain an artificial back stack for the
-        // started Activity.
-        // This ensures that navigating backward from the Activity leads out of
-        // your application to the Home screen.
-        val stackBuilder = TaskStackBuilder.create(context!!)
-        // Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(NavigationActivity::class.java)
-        // Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(resultIntent)
-        val resultPendingIntent = stackBuilder.getPendingIntent(
-                0,
-                PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        mBuilder.setContentIntent(resultPendingIntent)
-        val mNotificationManager = getSystemService(context!!, NotificationManager::class.java) as NotificationManager
-        // mId allows you to update the notification later on.
-        val id = 1
-        mNotificationManager.notify(id, mBuilder.build())
-
-
-
-
         return rootView
     }
 
