@@ -1,18 +1,10 @@
 package com.example.andrey_radzkov
 
-import android.app.NotificationManager
-import android.app.PendingIntent
-import android.content.Intent
-import android.graphics.Color
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
-import android.provider.Settings
 import android.support.annotation.RequiresApi
 import android.support.v4.app.Fragment
-import android.support.v4.app.NotificationCompat
-import android.support.v4.app.TaskStackBuilder
-import android.support.v4.content.ContextCompat.getSystemService
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,7 +14,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import java.util.*
+import java.util.Locale
 
 
 /**
@@ -67,11 +59,16 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
 //TODO: async
         val goretskogo = "ул Горецкого, Минск"
         val sharangovicha = "ул Шаранговича 52, Минск"
+        val zhukova = "ул Жукова 29, Минск"
         val minskGoretskogo = getCoordinateByAddress(goretskogo)
         val minskSharangovicha = getCoordinateByAddress(sharangovicha)
+        val minskZhukova = getCoordinateByAddress(zhukova)
 
         if (minskSharangovicha != null) {
             mMap.addMarker(MarkerOptions().position(minskSharangovicha).title(sharangovicha))
+        }
+        if (minskZhukova != null) {
+            mMap.addMarker(MarkerOptions().position(minskZhukova).title(zhukova))
         }
         if (minskGoretskogo != null) {
             mMap.addMarker(MarkerOptions().position(minskGoretskogo).title(goretskogo))
