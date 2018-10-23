@@ -115,8 +115,8 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
                 handler.postDelayed({
                     val notificationBuilder = NotificationCompat.Builder(applicationContext)
                             .setSmallIcon(R.drawable.ic_launcher_background)
-                            .setContentTitle("My notification")
-                            .setContentText("Hello World2!")
+                            .setContentTitle("Supplyon Pid Registraction")
+                            .setContentText("Connect with 'Seller' has been activated")
                             .setAutoCancel(true)
                             .setVibrate(longArrayOf(150, 100, 150, 100))
                             .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)

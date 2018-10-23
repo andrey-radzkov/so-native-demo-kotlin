@@ -3,9 +3,12 @@ package com.example.andrey_radzkov
 import android.app.Activity
 import android.content.Intent
 import android.media.MediaPlayer
+import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
 import android.speech.RecognizerIntent
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -66,6 +69,19 @@ class VoiceControlFragment : Fragment(), MediaPlayer.OnCompletionListener {
                         results[0]//TODO: analyze all
                     }
             statusText.text = spokenText
+            val handler = Handler()
+            handler.postDelayed({
+                statusText.text = "Will open Supplyon in a second..."
+                val handlerOpen = Handler()
+                handlerOpen.postDelayed({
+                    if (spokenText == "open supplyon") {
+                        val browse = Intent(Intent.ACTION_VIEW, Uri.parse("http://evbyminsd2156.minsk.epam.com/slm/"))
+                        ContextCompat.startActivity(context!!, browse, null)
+                    }
+                }, 1500)
+            }, 1500)
+
+
         } else {
             statusText.text = "No text, please, try again"
         }
