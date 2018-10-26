@@ -64,22 +64,21 @@ class VoiceControlFragment : Fragment(), MediaPlayer.OnCompletionListener {
 // This is where you process the intent and extract the speech text from the intent.
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == SPEECH_REQUEST_CODE && resultCode == Activity.RESULT_OK && data != null) {
-            val spokenText: String? =
-                    data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS).let { results ->
-                        results[0]//TODO: analyze all
-                    }
-            statusText.text = spokenText
+            val spokenTextList: List<String> =
+                    data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
+            statusText.text = spokenTextList[0]
             val handler = Handler()
-            handler.postDelayed({
-                statusText.text = "Will open Supplyon in a second..."
-                val handlerOpen = Handler()
-                handlerOpen.postDelayed({
-                    if (spokenText == "open supplyon") {
+            val first = spokenTextList.firstOrNull { spokenText -> spokenText.contains("open application", true) }
+            if (first != null) {
+                handler.postDelayed({
+                    statusText.text = "Will open Supplyon in a second..."
+                    handler.postDelayed({
                         val browse = Intent(Intent.ACTION_VIEW, Uri.parse("http://evbyminsd2156.minsk.epam.com/slm/"))
                         ContextCompat.startActivity(context!!, browse, null)
-                    }
+                        statusText.text="Ready"
+                    }, 1500)
                 }, 1500)
-            }, 1500)
+            }
 
 
         } else {
