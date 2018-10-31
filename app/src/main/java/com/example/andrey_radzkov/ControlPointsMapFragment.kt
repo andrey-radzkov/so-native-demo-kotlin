@@ -5,7 +5,6 @@ import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Geocoder
-import android.location.Location
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
@@ -28,6 +27,8 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Locale
+import kotlin.collections.ArrayList
+import kotlin.collections.isNotEmpty
 
 
 /**
@@ -128,16 +129,6 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
             mGeofenceList.add(getGeofence(sharangovicha, minskSharangovicha))
         }
         if (minskZhukova != null) {
-            val lastLocation = LocationServices.getFusedLocationProviderClient(context!!).lastLocation
-            var zl = Location("")
-            zl.latitude = minskZhukova.latitude
-            zl.longitude = minskZhukova.longitude
-            lastLocation.addOnSuccessListener { listener ->
-                Log.d(TAG, "CurrentLocation: " + listener.latitude.toString() + " " + listener.longitude.toString())
-                Log.d(TAG, "Distance to zhukova : " + listener.distanceTo(zl))
-            }
-
-
             mMap.addMarker(MarkerOptions().position(minskZhukova).title(zhukova))
             mGeofenceList.add(getGeofence(zhukova, minskZhukova))
         }

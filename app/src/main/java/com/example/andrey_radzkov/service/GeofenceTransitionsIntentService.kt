@@ -62,7 +62,7 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
     private fun sendNotification(description: String) {
         Log.d(TAG, "===============> sendNotification()")
 
-        notificationService.sendDelayedHotification("Geofencing:", description, this.applicationContext)
+        notificationService.sendImmediateHotification("Geofencing:", description, this.applicationContext)
     }
 
     private fun getTransitionString(transitionType: Int): String {

@@ -20,39 +20,43 @@ class NotificationService {
     fun sendDelayedHotification(title: String, text: String, applicationContext: Context) {
         val handler = Handler()
         handler.postDelayed({
-            val notificationBuilder = NotificationCompat.Builder(applicationContext)
-                    .setSmallIcon(R.drawable.ic_launcher_background)
-                    .setContentTitle("Supplyon Pid Registraction")
-                    .setContentText("Connect with 'Seller' has been activated")
-                    .setAutoCancel(true)
-                    .setVibrate(longArrayOf(150, 100, 150, 100))
-                    .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
-                    .setLights(Color.RED, 3000, 3000)
-                    .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
-                    .setPriority(NotificationCompat.PRIORITY_MAX)
-            // Creates an explicit intent for an Activity in your app
-            val resultIntent = Intent(applicationContext, NavigationActivity::class.java)
-
-            // The stack builder object will contain an artificial back stack for the
-            // started Activity.
-            // This ensures that navigating backward from the Activity leads out of
-            // your application to the Home screen.
-            val stackBuilder = TaskStackBuilder.create(applicationContext)
-            // Adds the back stack for the Intent (but not the Intent itself)
-            stackBuilder.addParentStack(NavigationActivity::class.java)
-            // Adds the Intent that starts the Activity to the top of the stack
-            stackBuilder.addNextIntent(resultIntent)
-            val resultPendingIntent = stackBuilder.getPendingIntent(
-                    0,
-                    PendingIntent.FLAG_UPDATE_CURRENT
-            )
-            notificationBuilder.setContentIntent(resultPendingIntent)
-            val mNotificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
-            // mId allows you to update the notification later on.
-            val id = title.hashCode() + text.hashCode()
-            val notification = notificationBuilder.build()
-
-            mNotificationManager.notify(id, notification)
+            this.sendImmediateHotification(title, text, applicationContext)
         }, 3000)
+    }
+
+    fun sendImmediateHotification(title: String, text: String, applicationContext: Context) {
+        val notificationBuilder = NotificationCompat.Builder(applicationContext)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setVibrate(longArrayOf(150, 100, 150, 100))
+                .setSound(Settings.System.DEFAULT_NOTIFICATION_URI)
+                .setLights(Color.RED, 3000, 3000)
+                .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
+                .setPriority(NotificationCompat.PRIORITY_MAX)
+        // Creates an explicit intent for an Activity in your app
+        val resultIntent = Intent(applicationContext, NavigationActivity::class.java)
+
+        // The stack builder object will contain an artificial back stack for the
+        // started Activity.
+        // This ensures that navigating backward from the Activity leads out of
+        // your application to the Home screen.
+        val stackBuilder = TaskStackBuilder.create(applicationContext)
+        // Adds the back stack for the Intent (but not the Intent itself)
+        stackBuilder.addParentStack(NavigationActivity::class.java)
+        // Adds the Intent that starts the Activity to the top of the stack
+        stackBuilder.addNextIntent(resultIntent)
+        val resultPendingIntent = stackBuilder.getPendingIntent(
+                0,
+                PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        notificationBuilder.setContentIntent(resultPendingIntent)
+        val mNotificationManager = ContextCompat.getSystemService(applicationContext, NotificationManager::class.java) as NotificationManager
+        // mId allows you to update the notification later on.
+        val id = title.hashCode() + text.hashCode()
+        val notification = notificationBuilder.build()
+
+        mNotificationManager.notify(id, notification)
     }
 }
