@@ -64,17 +64,6 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
 
     private fun sendNotification(description: String) {
         Log.d(TAG, "===============> sendNotification()")
-        // Create an explicit content Intent that starts the main Activity.
-        val notificationIntent = Intent(applicationContext, NavigationActivity::class.java)
-
-        // Construct a task stack.
-        val stackBuilder = TaskStackBuilder.create(this)
-
-        // Add the main Activity to the task stack as the parent.
-        stackBuilder.addParentStack(NavigationActivity::class.java)
-
-        // Push the content Intent onto the stack.
-        stackBuilder.addNextIntent(notificationIntent)
 
         notificationService.sendDelayedHotification("Geofencing:", description, applicationContext)
     }
