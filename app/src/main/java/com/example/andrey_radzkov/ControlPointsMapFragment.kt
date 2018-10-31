@@ -134,6 +134,7 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
             zl.longitude = minskZhukova.longitude
             lastLocation.addOnSuccessListener { listener ->
                 Log.d(TAG, "CurrentLocation: " + listener.latitude.toString() + " " + listener.longitude.toString())
+                Log.d(TAG, "Distance to zhukova : " + listener.distanceTo(zl))
             }
 
 

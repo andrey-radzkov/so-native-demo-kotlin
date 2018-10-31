@@ -1,12 +1,9 @@
 package com.example.andrey_radzkov.service
 
 import android.app.IntentService
-import android.app.TaskStackBuilder
-import android.content.Context
 import android.content.Intent
 import android.text.TextUtils
 import android.util.Log
-import com.example.andrey_radzkov.NavigationActivity
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 
@@ -41,7 +38,7 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
             val triggeringGeofences = event.triggeringGeofences
 
             // Get the transition details as a String.
-            val geofenceTransitionDetails = getGeofenceTransitionDetails(this, geofenceTransition,
+            val geofenceTransitionDetails = getGeofenceTransitionDetails(geofenceTransition,
                     triggeringGeofences)
 
             // Send notification and log the transition details.
@@ -53,7 +50,7 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
         }
     }
 
-    private fun getGeofenceTransitionDetails(context: Context, geofenceTransition: Int,
+    private fun getGeofenceTransitionDetails(geofenceTransition: Int,
                                              triggeringGeofences: List<Geofence>): String {
         Log.d(TAG, "===============> getGeofenceTransitionDetails()")
         val geofenceTransitionString = getTransitionString(geofenceTransition)
@@ -65,7 +62,7 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
     private fun sendNotification(description: String) {
         Log.d(TAG, "===============> sendNotification()")
 
-        notificationService.sendDelayedHotification("Geofencing:", description, applicationContext)
+        notificationService.sendDelayedHotification("Geofencing:", description, this.applicationContext)
     }
 
     private fun getTransitionString(transitionType: Int): String {
