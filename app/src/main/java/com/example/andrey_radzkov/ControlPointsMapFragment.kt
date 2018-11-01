@@ -72,8 +72,8 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
     }
 
     private fun addGeofencesHandler() {
-        if (ActivityCompat.checkSelfPermission(context!!,
-                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if ((ActivityCompat.checkSelfPermission(context!!,
+                        Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) || mGeofenceList.isEmpty()) {
             return
         }
         LocationServices.getGeofencingClient(context!!).addGeofences(getGeofencingRequest(),
