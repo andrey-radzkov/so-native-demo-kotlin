@@ -19,7 +19,6 @@ class ServiceStateFragment : Fragment() {
     lateinit var buttonSwitchBackground: Button
     lateinit var buttonLogin: Button
     lateinit var buttonSlm: Button
-    lateinit var header: TextView
     lateinit var layout: RelativeLayout
     var isBlack: Boolean = false
 
@@ -29,13 +28,11 @@ class ServiceStateFragment : Fragment() {
         buttonSwitchBackground = rootView.findViewById(R.id.switchBackground) as Button
         buttonLogin = rootView.findViewById(R.id.loginService)
         buttonSlm = rootView.findViewById(R.id.slmService)
-        header = rootView.findViewById(R.id.serviceStateText)
         layout = rootView.findViewById(R.id.serviceBackground)
         buttonSwitchMode.setOnClickListener {
             //TODO: too dirty, fix it
             buttonLogin.rotationX += 180f
             buttonSlm.rotationX += 180f
-            header.rotationX += 180f
         }
         buttonSwitchBackground.setOnClickListener {
             if (isBlack) {
@@ -59,7 +56,6 @@ class ServiceStateFragment : Fragment() {
             val color = savedInstanceState.getInt("color")
             buttonLogin.rotationX = rotationX
             buttonSlm.rotationX = rotationX
-            header.rotationX = rotationX
             layout.setBackgroundColor(color)
             if (color == Color.BLACK) {
                 isBlack = true
