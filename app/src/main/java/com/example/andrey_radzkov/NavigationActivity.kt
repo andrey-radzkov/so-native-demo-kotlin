@@ -107,6 +107,9 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
             R.id.nav_manage -> {
                 fragment = ServiceStateFragment()
             }
+            R.id.nav_complaint -> {
+                fragment = BarcodeFragment()
+            }
             R.id.nav_share -> {
 
             }
