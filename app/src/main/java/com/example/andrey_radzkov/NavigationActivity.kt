@@ -98,14 +98,15 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
             R.id.nav_manage -> {
                 fragment = ServiceStateFragment()
             }
+            R.id.nav_create_connect -> {
+                val intent = Intent(this, ConnectRequestDetailActivity::class.java)
+                startActivity(intent)
+            }
             R.id.nav_complaint -> {
                 fragment = BarcodeFragment()
             }
-            R.id.nav_share -> {
-
-            }
             R.id.nav_send -> {
-                notificationService.sendDelayedHotification("Supplyon Pid Registraction", "Connect with 'Seller' has been activated", applicationContext)
+                notificationService.sendDelayedHotification("Supplyon Pid Registraction", "Connect with 'Seller' has been activated", applicationContext, this.javaClass)
             }
         }
 

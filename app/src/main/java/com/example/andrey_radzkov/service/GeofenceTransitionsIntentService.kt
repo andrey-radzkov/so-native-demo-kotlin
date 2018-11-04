@@ -4,6 +4,7 @@ import android.app.IntentService
 import android.content.Intent
 import android.text.TextUtils
 import android.util.Log
+import com.example.andrey_radzkov.ConnectRequestDetailActivity
 import com.google.android.gms.location.Geofence
 import com.google.android.gms.location.GeofencingEvent
 
@@ -62,7 +63,7 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
     private fun sendNotification(description: String) {
         Log.d(TAG, "===============> sendNotification()")
 
-        notificationService.sendImmediateHotification("Geofencing:", description, this.applicationContext)
+        notificationService.sendImmediateHotification("Geofencing:", description, this.applicationContext, ConnectRequestDetailActivity::class.java)
     }
 
     private fun getTransitionString(transitionType: Int): String {

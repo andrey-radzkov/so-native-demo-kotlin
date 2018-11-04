@@ -17,14 +17,14 @@ import com.example.andrey_radzkov.R
  * @author Radzkov Andrey
  */
 class NotificationService {
-    fun sendDelayedHotification(title: String, text: String, applicationContext: Context) {
+    fun sendDelayedHotification(title: String, text: String, applicationContext: Context, clazz: Class<*>) {
         val handler = Handler()
         handler.postDelayed({
-            this.sendImmediateHotification(title, text, applicationContext)
+            this.sendImmediateHotification(title, text, applicationContext, clazz)
         }, 3000)
     }
 
-    fun sendImmediateHotification(title: String, text: String, applicationContext: Context) {
+    fun sendImmediateHotification(title: String, text: String, applicationContext: Context, clazz: Class<*>) {
         val notificationBuilder = NotificationCompat.Builder(applicationContext)
                 .setSmallIcon(R.drawable.ic_launcher_background)
                 .setContentTitle(title)
@@ -36,8 +36,8 @@ class NotificationService {
                 .setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
                 .setPriority(NotificationCompat.PRIORITY_MAX)
         // Creates an explicit intent for an Activity in your app
-        val resultIntent = Intent(applicationContext, NavigationActivity::class.java)
-
+        val resultIntent = Intent(applicationContext, clazz)
+        resultIntent.putExtra("description", text)
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
         // This ensures that navigating backward from the Activity leads out of

@@ -57,6 +57,29 @@
 
         <activity android:name=".BarcodeScanActivity"
             android:label="SupplyOn: Barcode scanning"></activity>
+
+        <service
+            android:name=".service.GeofenceTransitionsIntentService"
+            android:exported="true" />
+
+        <activity
+            android:name=".ConnectRequestListActivity"
+            android:label="@string/title_connectrequest_list"
+            android:parentActivityName=".NavigationActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.andrey_radzkov.NavigationActivity" />
+        </activity>
+        <activity
+            android:name=".ConnectRequestDetailActivity"
+            android:label="@string/title_connectrequest_detail"
+            android:parentActivityName=".ConnectRequestListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.andrey_radzkov.ConnectRequestListActivity" />
+        </activity>
     </application>
 
 </manifest>
