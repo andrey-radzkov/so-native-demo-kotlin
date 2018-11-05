@@ -18,7 +18,8 @@
         android:text="Use scanned code"
         android:id="@+id/emulateScanBarcode"
         android:visibility="invisible"
-    />
+        style="@style/Widget.AppCompat.Button.Colored"
+        />
 
     <SurfaceView
         android:id="@+id/sv_barcode"

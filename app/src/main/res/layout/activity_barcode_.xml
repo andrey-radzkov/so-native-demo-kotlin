@@ -28,7 +28,8 @@
         android:layout_height="wrap_content"
         android:text="Send to PROSO"
         android:id="@+id/sendToProso"
-/>
+        style="@style/Widget.AppCompat.Button.Colored"
+        />
 
 
 
