@@ -13,8 +13,10 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.example.andrey_radzkov.service.NotificationService
-import kotlinx.android.synthetic.main.navigation_activity.*
-import kotlinx.android.synthetic.main.navigation_app_bar.*
+import kotlinx.android.synthetic.main.navigation_activity.drawer_layout
+import kotlinx.android.synthetic.main.navigation_activity.nav_view
+import kotlinx.android.synthetic.main.navigation_app_bar.fab
+import kotlinx.android.synthetic.main.navigation_app_bar.toolbar
 
 
 open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -86,11 +88,6 @@ open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigation
             }
             R.id.control_points_map -> {
                 fragment = ControlPointsMapFragment()
-            }
-            R.id.nav_camera -> {
-                // Handle the camera action
-                val cameraIntent = Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE)
-                startActivityForResult(cameraIntent, 1337)
             }
             R.id.nav_voice_control -> {
                 fragment = VoiceControlFragment()

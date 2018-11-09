@@ -14,10 +14,6 @@
             android:icon="@drawable/ic_menu_map"
             android:title="Control Points" />
         <item
-            android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="Camera" />
-        <item
             android:id="@+id/nav_voice_control"
             android:icon="@drawable/ic_menu_slideshow"
             android:title="Voice control" />
