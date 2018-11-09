@@ -20,11 +20,11 @@ class NotificationService {
     fun sendDelayedHotification(title: String, text: String, applicationContext: Context, clazz: Class<*>) {
         val handler = Handler()
         handler.postDelayed({
-            this.sendImmediateHotification(title, text, applicationContext, clazz)
+            this.sendImmediateHotification(title, text, applicationContext, clazz, null)
         }, 3000)
     }
 
-    fun sendImmediateHotification(title: String, text: String, applicationContext: Context, clazz: Class<*>) {
+    fun sendImmediateHotification(title: String, text: String, applicationContext: Context, clazz: Class<*>, description: String?) {
         val notificationBuilder = NotificationCompat.Builder(applicationContext)
                 .setSmallIcon(R.drawable.circle)
                 .setContentTitle(title)
@@ -37,7 +37,10 @@ class NotificationService {
                 .setPriority(NotificationCompat.PRIORITY_MAX)
         // Creates an explicit intent for an Activity in your app
         val resultIntent = Intent(applicationContext, clazz)
-        resultIntent.putExtra("description", text)
+        description?.let {
+            resultIntent.putExtra("description", description)
+        }
+
         // The stack builder object will contain an artificial back stack for the
         // started Activity.
         // This ensures that navigating backward from the Activity leads out of
