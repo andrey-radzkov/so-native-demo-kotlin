@@ -46,14 +46,11 @@ class ConnectRequestDetailFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.connect_request_detail, container, false)
 
-        // Show the dummy content as text in a TextView.
-        item?.let {
-            rootView.connect_request_detail.text = it.details
-        }
+
         description?.let {
             Log.d("ConnectRequestDetail: ", description)
             val nameTxt: TextView = rootView.findViewById(R.id.connect_request_detail)
-            nameTxt.text = "Address: $description"
+            nameTxt.text = description
         }
 
 

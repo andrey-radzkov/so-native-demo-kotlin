@@ -4,14 +4,36 @@
     android:layout_height="fill_parent"
     android:orientation="vertical">
 
-    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/connect_request_detail"
-        style="?android:attr/textAppearanceLarge"
+    <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="16dp"
-        android:text="Create connect"
-        android:textIsSelectable="true"
-        tools:context=".ConnectRequestDetailFragment" />
+        android:layout_marginTop="40dp">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/connect_request_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Organization Name" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.TextInputEditText
+            android:id="@+id/connect_request_aditional_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Additional notes" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:id="@+id/submitConnectRequest"
+        style="@style/Widget.AppCompat.Button.Colored"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="80dp"
+        android:layout_marginTop="8dp"
+        android:gravity="center_horizontal"
+        android:text="Submit Request" />
 </LinearLayout>
