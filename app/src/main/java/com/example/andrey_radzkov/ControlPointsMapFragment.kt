@@ -7,6 +7,7 @@ import android.content.pm.PackageManager
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
+import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
@@ -27,8 +28,6 @@ import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import java.util.Locale
-import kotlin.collections.ArrayList
-import kotlin.collections.isNotEmpty
 
 
 /**
@@ -112,39 +111,37 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
      */
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-//        if (ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
-//                == PackageManager.PERMISSION_GRANTED) {
-//        mMap.setMyLocationEnabled(true)}
-        // Add a marker in Sydney and move the camera
-//TODO: async
-        val goretskogo = "ул Горецкого 51, Минск"
-        val sharangovicha = "ул Шаранговича 52, Минск"
-        val zhukova = "ул Жукова 29, Минск"
-        val minskGoretskogo = getCoordinateByAddress(goretskogo)
-        val minskSharangovicha = getCoordinateByAddress(sharangovicha)
-        val minskZhukova = getCoordinateByAddress(zhukova)
-
-        if (minskSharangovicha != null) {
-            mMap.addMarker(MarkerOptions().position(minskSharangovicha).title(sharangovicha))
-            mGeofenceList.add(getGeofence(sharangovicha, minskSharangovicha))
-        }
-        if (minskZhukova != null) {
-            mMap.addMarker(MarkerOptions().position(minskZhukova).title(zhukova))
-            mGeofenceList.add(getGeofence(zhukova, minskZhukova))
-        }
-        if (minskGoretskogo != null) {
-            mMap.addMarker(MarkerOptions().position(minskGoretskogo).title(goretskogo))
-            mGeofenceList.add(getGeofence(goretskogo, minskGoretskogo))
-            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(minskGoretskogo, 11.0f))
-        }
+        val handler = Handler()
+        handler.postDelayed({
+            val goretskogo = "ул Горецкого 51, Минск"
+            val sharangovicha = "ул Шаранговича 52, Минск"
+            val zhukova = "ул Жукова 29, Минск"
 
 
-        if (checkPermission()) {
-            addGeofencesHandler()
-        } else {
-            askPermission()
-        }
+            val minskSharangovicha = getCoordinateByAddress(sharangovicha)
+            val minskZhukova = getCoordinateByAddress(zhukova)
+            val minskGoretskogo = getCoordinateByAddress(goretskogo)
+            if (minskSharangovicha != null) {
+                mMap.addMarker(MarkerOptions().position(minskSharangovicha).title(sharangovicha))
+                mGeofenceList.add(getGeofence(sharangovicha, minskSharangovicha))
+            }
+            if (minskZhukova != null) {
+                mMap.addMarker(MarkerOptions().position(minskZhukova).title(zhukova))
+                mGeofenceList.add(getGeofence("Epam, Minsk", minskZhukova))
+            }
+            if (minskGoretskogo != null) {
+                mMap.addMarker(MarkerOptions().position(minskGoretskogo).title(goretskogo))
+                mGeofenceList.add(getGeofence("House", minskGoretskogo))
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(minskGoretskogo, 11.0f))
+            }
 
+
+            if (checkPermission()) {
+                addGeofencesHandler()
+            } else {
+                askPermission()
+            }
+        }, 200)
         mMapView!!.onResume()
     }
 

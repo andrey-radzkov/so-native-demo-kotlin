@@ -57,13 +57,13 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
         val geofenceTransitionString = getTransitionString(geofenceTransition)
         // Get the Ids of each geofence that was triggered.
         val triggeringGeofencesIdsList = triggeringGeofences.map { geofence -> geofence.requestId }
-        return geofenceTransitionString + ": " + TextUtils.join(", ", triggeringGeofencesIdsList)
+        return TextUtils.join(", ", triggeringGeofencesIdsList)
     }
 
     private fun sendNotification(description: String) {
         Log.d(TAG, "===============> sendNotification()")
 
-        notificationService.sendImmediateHotification("Geofencing:", description, this.applicationContext, ConnectRequestDetailActivity::class.java)
+        notificationService.sendImmediateHotification("You are near " + description, "Create connect in one click!", this.applicationContext, ConnectRequestDetailActivity::class.java)
     }
 
     private fun getTransitionString(transitionType: Int): String {
