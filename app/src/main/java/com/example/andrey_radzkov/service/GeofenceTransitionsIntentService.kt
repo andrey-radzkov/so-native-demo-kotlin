@@ -54,23 +54,23 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
     private fun getGeofenceTransitionDetails(geofenceTransition: Int,
                                              triggeringGeofences: List<Geofence>): String {
         Log.d(TAG, "===============> getGeofenceTransitionDetails()")
-        val geofenceTransitionString = getTransitionString(geofenceTransition)
+        val geofenceTransitionEvent = getTransitionString(geofenceTransition)
         // Get the Ids of each geofence that was triggered.
         val triggeringGeofencesIdsList = triggeringGeofences.map { geofence -> geofence.requestId }
-        return TextUtils.join(", ", triggeringGeofencesIdsList)
+        return geofenceTransitionEvent + TextUtils.join(", ", triggeringGeofencesIdsList)
     }
 
     private fun sendNotification(description: String) {
         Log.d(TAG, "===============> sendNotification()")
 
-        notificationService.sendImmediateHotification("You are near " + description, "Create connect in one click!", this.applicationContext, ConnectRequestDetailActivity::class.java, description)
+        notificationService.sendImmediateHotification(description, "Create connect in one click!", this.applicationContext, ConnectRequestDetailActivity::class.java, description)
     }
 
     private fun getTransitionString(transitionType: Int): String {
         Log.d(TAG, "===============> getTransitionString()")
         when (transitionType) {
-            Geofence.GEOFENCE_TRANSITION_ENTER -> return "Geofencing entered"
-            Geofence.GEOFENCE_TRANSITION_EXIT -> return "Geofencing exited"
+            Geofence.GEOFENCE_TRANSITION_ENTER -> return "You are near "
+            Geofence.GEOFENCE_TRANSITION_EXIT -> return "You was near "
             else -> return "Geofencing unknown"
         }
     }
