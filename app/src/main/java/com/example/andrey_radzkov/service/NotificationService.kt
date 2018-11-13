@@ -26,7 +26,7 @@ class NotificationService {
 
     fun sendImmediateHotification(title: String, text: String, applicationContext: Context, clazz: Class<*>, description: String?) {
         val notificationBuilder = NotificationCompat.Builder(applicationContext)
-                .setSmallIcon(R.drawable.circle)
+                .setSmallIcon(R.drawable.so_logo)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setAutoCancel(true)

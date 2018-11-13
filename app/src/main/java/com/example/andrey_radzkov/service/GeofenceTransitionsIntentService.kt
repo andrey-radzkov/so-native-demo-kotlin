@@ -37,13 +37,14 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
 
             // Get the geofences that were triggered. A single event can trigger multiple geofences.
             val triggeringGeofences = event.triggeringGeofences
+            val geofenceTransitionEvent = getTransitionString(geofenceTransition)
 
             // Get the transition details as a String.
-            val geofenceTransitionDetails = getGeofenceTransitionDetails(geofenceTransition,
+            val geofenceTransitionDetails = getGeofenceTransitionDetails(
                     triggeringGeofences)
 
             // Send notification and log the transition details.
-            sendNotification(geofenceTransitionDetails)
+            sendNotification(geofenceTransitionEvent, geofenceTransitionDetails)
             Log.i(TAG, geofenceTransitionDetails)
         } else {
             // Log the error.
@@ -51,19 +52,17 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
         }
     }
 
-    private fun getGeofenceTransitionDetails(geofenceTransition: Int,
-                                             triggeringGeofences: List<Geofence>): String {
+    private fun getGeofenceTransitionDetails(triggeringGeofences: List<Geofence>): String {
         Log.d(TAG, "===============> getGeofenceTransitionDetails()")
-        val geofenceTransitionEvent = getTransitionString(geofenceTransition)
         // Get the Ids of each geofence that was triggered.
         val triggeringGeofencesIdsList = triggeringGeofences.map { geofence -> geofence.requestId }
-        return geofenceTransitionEvent + TextUtils.join(", ", triggeringGeofencesIdsList)
+        return TextUtils.join(", ", triggeringGeofencesIdsList)
     }
 
-    private fun sendNotification(description: String) {
+    private fun sendNotification(geofenceTransitionEvent: String, place: String) {
         Log.d(TAG, "===============> sendNotification()")
 
-        notificationService.sendImmediateHotification(description, "Create connect in one click!", this.applicationContext, ConnectRequestDetailActivity::class.java, description)
+        notificationService.sendImmediateHotification(geofenceTransitionEvent + place, "Create connect in one click!", this.applicationContext, ConnectRequestDetailActivity::class.java, place)
     }
 
     private fun getTransitionString(transitionType: Int): String {
