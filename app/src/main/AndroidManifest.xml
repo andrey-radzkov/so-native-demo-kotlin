@@ -73,7 +73,7 @@
         </activity>
         <activity
             android:name=".ConnectRequestDetailActivity"
-            android:label="@string/title_connectrequest_detail"
+            android:label="@string/title_nwl_request_detail"
             android:parentActivityName=".ConnectRequestListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

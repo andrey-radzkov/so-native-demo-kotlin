@@ -62,7 +62,7 @@ class GeofenceTransitionsIntentService : IntentService(GeofenceTransitionsIntent
     private fun sendNotification(geofenceTransitionEvent: String, place: String) {
         Log.d(TAG, "===============> sendNotification()")
 
-        notificationService.sendImmediateHotification(geofenceTransitionEvent + place, "Create connect in one click!", this.applicationContext, ConnectRequestDetailActivity::class.java, place)
+        notificationService.sendImmediateHotification(geofenceTransitionEvent + place, "Create network link in one click!", this.applicationContext, ConnectRequestDetailActivity::class.java, place)
     }
 
     private fun getTransitionString(transitionType: Int): String {

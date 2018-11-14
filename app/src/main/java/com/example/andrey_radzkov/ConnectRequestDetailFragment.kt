@@ -8,8 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.andrey_radzkov.dummy.DummyContent
-import kotlinx.android.synthetic.main.activity_connectrequest_detail.*
-import kotlinx.android.synthetic.main.connect_request_detail.view.*
+import kotlinx.android.synthetic.main.activity_nwl_request_detail.*
 
 /**
  * A fragment representing a single ConnectRequest detail screen.
@@ -44,7 +43,7 @@ class ConnectRequestDetailFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.connect_request_detail, container, false)
+        val rootView = inflater.inflate(R.layout.nwl_request_detail, container, false)
 
 
         description?.let {

@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_connectrequest_detail.*
+import kotlinx.android.synthetic.main.activity_nwl_request_detail.*
 
 /**
  * An activity representing a single ConnectRequest detail screen. This
@@ -17,7 +17,7 @@ class ConnectRequestDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_connectrequest_detail)
+        setContentView(R.layout.activity_nwl_request_detail)
         setSupportActionBar(detail_toolbar)
 
         fab.setOnClickListener { view ->

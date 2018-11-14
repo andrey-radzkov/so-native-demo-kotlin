@@ -10,13 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.support.v4.app.NavUtils
-import android.support.v7.app.ActionBar
 import android.view.MenuItem
 
 import com.example.andrey_radzkov.dummy.DummyContent
-import kotlinx.android.synthetic.main.activity_connectrequest_list.*
-import kotlinx.android.synthetic.main.connectrequest_list_content.view.*
-import kotlinx.android.synthetic.main.connectrequest_list.*
+import kotlinx.android.synthetic.main.activity_nwl_request_list.*
+import kotlinx.android.synthetic.main.nwl_request_list_content.view.*
+import kotlinx.android.synthetic.main.nwl_request_list.*
 
 /**
  * An activity representing a list of Pings. This activity
@@ -36,7 +35,7 @@ class ConnectRequestListActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_connectrequest_list)
+        setContentView(R.layout.activity_nwl_request_list)
 
         setSupportActionBar(toolbar)
         toolbar.title = title
@@ -109,7 +108,7 @@ class ConnectRequestListActivity : AppCompatActivity() {
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
             val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.connectrequest_list_content, parent, false)
+                    .inflate(R.layout.nwl_request_list_content, parent, false)
             return ViewHolder(view)
         }
 

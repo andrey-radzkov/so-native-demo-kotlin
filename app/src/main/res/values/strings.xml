@@ -9,5 +9,5 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_activity_map_navigation">MapNavigationActivity</string>
     <string name="title_connectrequest_list">Connect Requests</string>
-    <string name="title_connectrequest_detail">Create connect</string>
+    <string name="title_nwl_request_detail">Create Network Link</string>
 </resources>
