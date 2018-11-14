@@ -131,7 +131,7 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
             }
             if (minskGoretskogo != null) {
                 mMap.addMarker(MarkerOptions().position(minskGoretskogo).title(goretskogo))
-                mGeofenceList.add(getGeofence("House", minskGoretskogo))
+                mGeofenceList.add(getGeofence("Home", minskGoretskogo))
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(minskGoretskogo, 11.0f))
             }
 
