@@ -46,7 +46,7 @@ class BarcodeFragment : Fragment() {
         btnSendToProso.setOnClickListener({
 
             val handler = Handler()
-
+            //TODO: use NotificationService
             handler.postDelayed({
                 val notificationBuilder = NotificationCompat.Builder(this.context)
                         .setSmallIcon(R.drawable.ic_launcher_background)
