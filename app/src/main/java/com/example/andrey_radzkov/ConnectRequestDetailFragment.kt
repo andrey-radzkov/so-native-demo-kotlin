@@ -1,6 +1,7 @@
 package com.example.andrey_radzkov
 
 import android.os.Bundle
+import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -8,7 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import com.example.andrey_radzkov.dummy.DummyContent
-import kotlinx.android.synthetic.main.activity_nwl_request_detail.*
+import kotlinx.android.synthetic.main.activity_nwl_request_detail.toolbar_layout
 
 /**
  * A fragment representing a single ConnectRequest detail screen.
@@ -26,15 +27,7 @@ class ConnectRequestDetailFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         arguments?.let {
-            if (it.containsKey(ARG_ITEM_ID)) {
-                // Load the dummy content specified by the fragment
-                // arguments. In a real-world scenario, use a Loader
-                // to load content from a content provider.
-                item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
-                activity?.toolbar_layout?.title = item?.content
-            }
             if (it.containsKey("description")) {
                 description = it.getString("description")
             }
@@ -48,8 +41,12 @@ class ConnectRequestDetailFragment : Fragment() {
 
         description?.let {
             Log.d("ConnectRequestDetail: ", description)
-            val nameTxt: TextView = rootView.findViewById(R.id.connect_request_detail)
-            nameTxt.text = description
+            val nameTxt: TextInputLayout = rootView.findViewById(R.id.connect_request_detail_input)
+            activity?.toolbar_layout?.title = description
+            nameTxt.setVisibility(View.GONE)
+        } ?: run {
+            val toolbarText: TextView? = activity?.findViewById(R.id.toolbar_text)
+            toolbarText!!.setVisibility(View.GONE)
         }
 
 

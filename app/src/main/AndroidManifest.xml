@@ -64,7 +64,7 @@
 
         <activity
             android:name=".ConnectRequestListActivity"
-            android:label="@string/title_connectrequest_list"
+            android:label="@string/title_nwl_request_list"
             android:parentActivityName=".NavigationActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

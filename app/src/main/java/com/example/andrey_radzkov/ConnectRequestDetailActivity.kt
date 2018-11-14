@@ -2,10 +2,9 @@ package com.example.andrey_radzkov
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import kotlinx.android.synthetic.main.activity_nwl_request_detail.*
+import kotlinx.android.synthetic.main.activity_nwl_request_detail.detail_toolbar
 
 /**
  * An activity representing a single ConnectRequest detail screen. This
@@ -19,11 +18,6 @@ class ConnectRequestDetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_nwl_request_detail)
         setSupportActionBar(detail_toolbar)
-
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
-        }
 
         // Show the Up button in the action bar.
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
