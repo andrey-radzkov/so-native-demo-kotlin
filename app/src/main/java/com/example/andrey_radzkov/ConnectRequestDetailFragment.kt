@@ -3,10 +3,12 @@ package com.example.andrey_radzkov
 import android.os.Bundle
 import android.support.design.widget.TextInputLayout
 import android.support.v4.app.Fragment
+import android.support.v7.widget.CardView
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.andrey_radzkov.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_nwl_request_detail.toolbar_layout
@@ -38,15 +40,20 @@ class ConnectRequestDetailFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.nwl_request_detail, container, false)
 
-
+        val orgLogo: ImageView = activity!!.findViewById(R.id.org_logo)
+        val orgLogoCard: CardView = activity!!.findViewById(R.id.org_logo_card)
         description?.let {
             Log.d("ConnectRequestDetail: ", description)
             val nameTxt: TextInputLayout = rootView.findViewById(R.id.connect_request_detail_input)
             activity?.toolbar_layout?.title = description
             nameTxt.setVisibility(View.GONE)
+            if (description == "Epam, Minsk") {
+                orgLogo.setImageResource(R.drawable.epam_logo)
+            }
         } ?: run {
             val toolbarText: TextView? = activity?.findViewById(R.id.toolbar_text)
-            toolbarText!!.setVisibility(View.GONE)
+            toolbarText!!.setVisibility(View.INVISIBLE)
+            orgLogoCard.setVisibility(View.INVISIBLE)
         }
 
 
