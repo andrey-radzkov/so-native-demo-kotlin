@@ -8,7 +8,9 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.ImageView
+import android.widget.Spinner
 import android.widget.TextView
 import com.example.andrey_radzkov.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_nwl_request_detail.toolbar_layout
@@ -59,6 +61,20 @@ class ConnectRequestDetailFragment : Fragment() {
             toolbarText!!.setVisibility(View.INVISIBLE)
             orgLogoCard.setVisibility(View.INVISIBLE)
         }
+
+        val spinner: Spinner = rootView.findViewById(R.id.control_points_selection)
+// Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter.createFromResource(
+                context!!,
+                R.array.control_points_array,
+                android.R.layout.simple_spinner_item
+        ).also { adapter ->
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            // Apply the adapter to the spinner
+            spinner.adapter = adapter
+        }
+
 
 
         return rootView

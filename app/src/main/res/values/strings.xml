@@ -10,4 +10,13 @@
     <string name="title_activity_map_navigation">MapNavigationActivity</string>
     <string name="title_nwl_request_list">Network Link Requests</string>
     <string name="title_nwl_request_detail">Create NWL</string>
+    <string-array name="control_points_array">
+        <item>Man (10 km)</item>
+        <item>ZF (20 km)</item>
+        <item>Bosch (28 km)</item>
+        <item>BMW (45 km)</item>
+        <item>Siemens (120 km)</item>
+        <item>Other company (220 km)</item>
+    </string-array>
 </resources>
+
