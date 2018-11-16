@@ -40,8 +40,9 @@ class ConnectRequestDetailFragment : Fragment() {
                               savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.nwl_request_detail, container, false)
 
-        val orgLogo: ImageView = activity!!.findViewById(R.id.org_logo)
-        val orgLogoCard: CardView = activity!!.findViewById(R.id.org_logo_card)
+        val orgLogo: ImageView = activity!!.findViewById(R.id.company_logo)
+        val orgLogoCard: CardView = activity!!.findViewById(R.id.company_logo_card)
+        val companyInfoText: TextView = activity!!.findViewById(R.id.company_info_text)
         description?.let {
             Log.d("ConnectRequestDetail: ", description)
             val nameTxt: TextInputLayout = rootView.findViewById(R.id.connect_request_detail_input)
@@ -49,6 +50,9 @@ class ConnectRequestDetailFragment : Fragment() {
             nameTxt.setVisibility(View.GONE)
             if (description == "Epam, Minsk") {
                 orgLogo.setImageResource(R.drawable.epam_logo)
+                companyInfoText.setText("Software development company")
+            } else {
+                companyInfoText.setText("I`m livng here")
             }
         } ?: run {
             val toolbarText: TextView? = activity?.findViewById(R.id.toolbar_text)
