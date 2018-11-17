@@ -26,13 +26,10 @@ class BarcodeFragment : Fragment() {
 
         barcodeScannedValue = rootView.findViewById(R.id.barcodeScannedValue)
 
-        barcodeScannedValue.setOnClickListener({
-            val intent2 = Intent(activity, BarcodeScanActivity::class.java)
+        val intent2 = Intent(activity, BarcodeScanActivity::class.java)
+        startActivityForResult(intent2, RC_BARCODE_CAPTURE)
 
-            startActivityForResult(intent2, RC_BARCODE_CAPTURE)
-        })
-
-        val btnSendToProso = rootView.findViewById<Button>(R.id.sendToProso)
+        val btnSendToProso: Button = rootView.findViewById(R.id.sendToProso)
 
         btnSendToProso.setOnClickListener({
             notificationService.sendDelayedHotification("Complaint submission",
@@ -49,7 +46,6 @@ class BarcodeFragment : Fragment() {
                 if (data != null) {
 
                     val barcodeValue = data.getStringExtra("ScannedBarcodeValue")
-
                     barcodeScannedValue.setText(barcodeValue)
 
                 } else {

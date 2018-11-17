@@ -1,9 +1,13 @@
 package com.example.andrey_radzkov
 
 import android.annotation.SuppressLint
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
+import android.os.VibrationEffect
+import android.os.Vibrator
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
@@ -56,6 +60,13 @@ class BarcodeScanActivity : AppCompatActivity() {
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
                 val barcodes = detections?.detectedItems
                 if (barcodes!!.size() > 0) {
+                    val vibrator: Vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        val effect: VibrationEffect = VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE);
+                        vibrator.vibrate(effect)
+                    } else {
+                        vibrator.vibrate(150)
+                    }
                     tvBarcode.post {
                         tvBarcode.text = barcodes.valueAt(0).displayValue
                         btnUseScannedCode.visibility = View.VISIBLE
