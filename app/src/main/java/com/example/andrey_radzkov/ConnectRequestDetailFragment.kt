@@ -8,12 +8,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.TextView
+import android.widget.*
 import com.example.andrey_radzkov.dummy.DummyContent
-import kotlinx.android.synthetic.main.activity_nwl_request_detail.toolbar_layout
+import com.example.andrey_radzkov.service.NotificationService
+import kotlinx.android.synthetic.main.activity_nwl_request_detail.*
 
 /**
  * A fragment representing a single ConnectRequest detail screen.
@@ -28,6 +26,7 @@ class ConnectRequestDetailFragment : Fragment() {
      */
     private var item: DummyContent.DummyItem? = null
     private var description: String? = null
+    private var notificationService: NotificationService = NotificationService()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,6 +73,12 @@ class ConnectRequestDetailFragment : Fragment() {
             // Apply the adapter to the spinner
             spinner.adapter = adapter
         }
+        val submitConnectRequest: Button = rootView.findViewById(R.id.submitConnectRequest)
+
+        submitConnectRequest.setOnClickListener({
+            notificationService.sendDelayedHotification("NWL Submission",
+                    "NWL is coming", this.context!!, NavigationActivity::class.java)
+        })
 
 
 
