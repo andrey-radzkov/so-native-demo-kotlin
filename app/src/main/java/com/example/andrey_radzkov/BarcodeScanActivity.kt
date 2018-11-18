@@ -14,7 +14,6 @@ import android.support.v7.app.AppCompatActivity
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.View
-import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.common.api.CommonStatusCodes
@@ -30,7 +29,6 @@ class BarcodeScanActivity : AppCompatActivity() {
 
     private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var cameraSource: CameraSource
-    private lateinit var btnUseScannedCode: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -38,15 +36,6 @@ class BarcodeScanActivity : AppCompatActivity() {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_barcode_scan)
-
-        btnUseScannedCode = findViewById(R.id.emulateScanBarcode)
-
-        btnUseScannedCode.setOnClickListener {
-            val data = Intent()
-            data.putExtra("ScannedBarcodeValue", if (tvBarcode.text.isEmpty()) "Tap here to scan product barcode!" else tvBarcode.text)
-            setResult(CommonStatusCodes.SUCCESS, data)
-            finish()
-        }
 
         svBarcode = findViewById(R.id.sv_barcode)
         tvBarcode = findViewById(R.id.tv_barcode)
@@ -69,7 +58,6 @@ class BarcodeScanActivity : AppCompatActivity() {
                     }
                     tvBarcode.post {
                         tvBarcode.text = barcodes.valueAt(0).displayValue
-                        btnUseScannedCode.visibility = View.VISIBLE
                         val data = Intent()
                         data.putExtra("ScannedBarcodeValue", tvBarcode.text!!)
                         setResult(CommonStatusCodes.SUCCESS, data)

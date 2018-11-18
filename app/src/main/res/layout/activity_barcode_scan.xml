@@ -12,14 +12,6 @@
         android:text="No code captured yet"
         android:layout_alignParentTop="true"
         />
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Use scanned code"
-        android:id="@+id/emulateScanBarcode"
-        android:visibility="invisible"
-        style="@style/Widget.AppCompat.Button.Colored"
-        />
 
     <SurfaceView
         android:id="@+id/sv_barcode"
