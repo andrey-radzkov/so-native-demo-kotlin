@@ -70,7 +70,12 @@ class BarcodeScanActivity : AppCompatActivity() {
                     tvBarcode.post {
                         tvBarcode.text = barcodes.valueAt(0).displayValue
                         btnUseScannedCode.visibility = View.VISIBLE
+                        val data = Intent()
+                        data.putExtra("ScannedBarcodeValue", if (tvBarcode.text.isEmpty()) "Tap here to scan product barcode!" else tvBarcode.text)
+                        setResult(CommonStatusCodes.SUCCESS, data)
+                        finish()
                     }
+
                 }
             }
 
