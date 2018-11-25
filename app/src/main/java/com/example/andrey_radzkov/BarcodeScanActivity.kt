@@ -4,16 +4,17 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
+import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
 import android.support.v7.app.AppCompatActivity
 import android.view.SurfaceHolder
 import android.view.SurfaceView
-import android.view.View
 import android.widget.TextView
 import android.widget.Toast
 import com.google.android.gms.common.api.CommonStatusCodes
@@ -29,6 +30,8 @@ class BarcodeScanActivity : AppCompatActivity() {
 
     private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var cameraSource: CameraSource
+    private lateinit var scannedText: String
+    val REQUEST_IMAGE_CAPTURE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -46,22 +49,15 @@ class BarcodeScanActivity : AppCompatActivity() {
                 //do nothing
             }
 
+            @SuppressLint("MissingPermission")
             override fun receiveDetections(detections: Detector.Detections<Barcode>?) {
                 val barcodes = detections?.detectedItems
                 if (barcodes!!.size() > 0) {
-                    val vibrator: Vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        val effect: VibrationEffect = VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE);
-                        vibrator.vibrate(effect)
-                    } else {
-                        vibrator.vibrate(150)
-                    }
+                    vibrate()
                     tvBarcode.post {
                         tvBarcode.text = barcodes.valueAt(0).displayValue
-                        val data = Intent()
-                        data.putExtra("ScannedBarcodeValue", tvBarcode.text!!)
-                        setResult(CommonStatusCodes.SUCCESS, data)
-                        finish()
+                        dispatchTakePictureIntent()
+                        scannedText = tvBarcode.text!! as String
                     }
 
                 }
@@ -96,6 +92,16 @@ class BarcodeScanActivity : AppCompatActivity() {
 
     }
 
+    private fun vibrate() {
+        val vibrator: Vibrator = getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val effect: VibrationEffect = VibrationEffect.createOneShot(150, VibrationEffect.DEFAULT_AMPLITUDE);
+            vibrator.vibrate(effect)
+        } else {
+            vibrator.vibrate(150)
+        }
+    }
+
     @SuppressLint("MissingPermission")
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
@@ -115,5 +121,27 @@ class BarcodeScanActivity : AppCompatActivity() {
         barcodeDetector.release()
         cameraSource.stop()
         cameraSource.release()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            vibrate()
+            val resultIntent = Intent()
+            resultIntent.putExtra("ScannedBarcodeValue", scannedText)
+            val imageBitmap = data!!.extras!!.get("data") as Bitmap
+            resultIntent.putExtra("ImageBitmap", imageBitmap)
+            setResult(CommonStatusCodes.SUCCESS, resultIntent)
+            finish()
+        }
+    }
+
+    private fun dispatchTakePictureIntent() {
+        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        intent.putExtra("android.intent.extra.quickCapture", true)
+        intent.also { takePictureIntent ->
+            takePictureIntent.resolveActivity(packageManager)?.also {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
+            }
+        }
     }
 }
