@@ -51,7 +51,7 @@ class BarcodeFragment : Fragment() {
                 if (data != null) {
 
                     val barcodeValue = data.getStringExtra("ScannedBarcodeValue")
-                    barcodeScannedValue.setText(barcodeValue)
+                    barcodeScannedValue.text = barcodeValue
                     val imageBitmap: Bitmap = data.getParcelableExtra("ImageBitmap")
 
                     imageBitmap.density = DisplayMetrics.DENSITY_XXXHIGH
