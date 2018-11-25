@@ -35,7 +35,7 @@ class BarcodeScanActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
-        this.title = "SupplyOn: scan barcode"
+        this.title = "Complaint in three click"
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_barcode_scan)
