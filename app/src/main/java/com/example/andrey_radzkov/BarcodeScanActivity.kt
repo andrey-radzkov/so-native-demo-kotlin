@@ -58,6 +58,7 @@ class BarcodeScanActivity : AppCompatActivity() {
                         tvBarcode.text = barcodes.valueAt(0).displayValue
                         dispatchTakePictureIntent()
                         scannedText = tvBarcode.text!! as String
+                        cameraSource.stop()
                     }
 
                 }
