@@ -4,7 +4,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
@@ -22,6 +22,7 @@ import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
+import java.io.File
 
 class BarcodeScanActivity : AppCompatActivity() {
 
@@ -31,6 +32,7 @@ class BarcodeScanActivity : AppCompatActivity() {
     private lateinit var barcodeDetector: BarcodeDetector
     private lateinit var cameraSource: CameraSource
     private lateinit var scannedText: String
+    private lateinit var image: Uri
     val REQUEST_IMAGE_CAPTURE = 1
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -129,8 +131,7 @@ class BarcodeScanActivity : AppCompatActivity() {
             vibrate()
             val resultIntent = Intent()
             resultIntent.putExtra("ScannedBarcodeValue", scannedText)
-            val imageBitmap = data!!.extras!!.get("data") as Bitmap
-            resultIntent.putExtra("ImageBitmap", imageBitmap)
+            resultIntent.putExtra("ImageBitmap", image)
             setResult(CommonStatusCodes.SUCCESS, resultIntent)
             finish()
         }
@@ -141,6 +142,10 @@ class BarcodeScanActivity : AppCompatActivity() {
         intent.putExtra("android.intent.extra.quickCapture", true)
         intent.also { takePictureIntent ->
             takePictureIntent.resolveActivity(packageManager)?.also {
+                val fname = "img_" + System.currentTimeMillis() + ".jpg"
+                val outFile = File("/sdcard/$fname")
+                image = Uri.fromFile(outFile)
+                takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, image)
                 startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE)
             }
         }

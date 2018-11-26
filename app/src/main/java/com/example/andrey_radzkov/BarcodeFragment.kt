@@ -1,10 +1,15 @@
 package com.example.andrey_radzkov
 
+import android.Manifest
+import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.net.Uri
 import android.os.Bundle
+import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
-import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +28,9 @@ class BarcodeFragment : Fragment() {
     private lateinit var complaintImage: ImageView
     private var notificationService: NotificationService = NotificationService()
 
+    // Storage Permissions
+    private val REQUEST_EXTERNAL_STORAGE = 1
+    private val PERMISSIONS_STORAGE = arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.activity_barcode, container, false)
@@ -49,12 +57,13 @@ class BarcodeFragment : Fragment() {
         if (requestCode == RC_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
-
+                    verifyStoragePermissions(activity!!)
                     val barcodeValue = data.getStringExtra("ScannedBarcodeValue")
                     barcodeScannedValue.text = barcodeValue
-                    val imageBitmap: Bitmap = data.getParcelableExtra("ImageBitmap")
-
-                    imageBitmap.density = DisplayMetrics.DENSITY_XXXHIGH
+                    val imageUri: Uri = data.getParcelableExtra("ImageBitmap")
+                    val options = BitmapFactory.Options()
+                    options.inPreferredConfig = Bitmap.Config.ARGB_8888
+                    val imageBitmap = BitmapFactory.decodeFile(imageUri.path, options)
                     complaintImage.setImageBitmap(imageBitmap)
                 } else {
                     barcodeScannedValue.setText("Empty data came from barcode")
@@ -67,6 +76,27 @@ class BarcodeFragment : Fragment() {
         }
 
 
+    }
+
+    /**
+     * Checks if the app has permission to write to device storage
+     *
+     * If the app does not has permission then the user will be prompted to grant permissions
+     *
+     * @param activity
+     */
+    fun verifyStoragePermissions(activity: Activity) {
+        // Check if we have write permission
+        val permission = ActivityCompat.checkSelfPermission(activity, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            // We don't have permission so prompt the user
+            ActivityCompat.requestPermissions(
+                    activity,
+                    PERMISSIONS_STORAGE,
+                    REQUEST_EXTERNAL_STORAGE
+            )
+        }
     }
 
 
