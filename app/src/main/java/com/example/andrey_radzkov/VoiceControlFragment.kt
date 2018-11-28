@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import java.util.Locale
 
 
 /**
@@ -55,6 +56,7 @@ class VoiceControlFragment : Fragment(), MediaPlayer.OnCompletionListener {
     private fun displaySpeechRecognizer() {
         val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH).apply {
             putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.US.toString())
         }
         // Start the activity, the intent will be populated with the speech text
         startActivityForResult(intent, SPEECH_REQUEST_CODE)
@@ -68,14 +70,27 @@ class VoiceControlFragment : Fragment(), MediaPlayer.OnCompletionListener {
                     data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS)
             statusText.text = spokenTextList[0]
             val handler = Handler()
-            val first = spokenTextList.firstOrNull { spokenText -> spokenText.contains("open application", true) }
-            if (first != null) {
+            val openApplication = spokenTextList.firstOrNull { spokenText -> spokenText.contains("open application", true) }
+            openApplication?.let {
                 handler.postDelayed({
                     statusText.text = "Will open Supplyon in a second..."
                     handler.postDelayed({
                         val browse = Intent(Intent.ACTION_VIEW, Uri.parse("http://evbyminsd2156.minsk.epam.com/slm/"))
                         ContextCompat.startActivity(context!!, browse, null)
-                        statusText.text="Ready"
+                        statusText.text = "Ready"
+                    }, 1500)
+                }, 1500)
+            }
+
+            val createComplaint = spokenTextList.firstOrNull { spokenText -> spokenText.contains("complaint", true) }
+            createComplaint?.let {
+                handler.postDelayed({
+                    statusText.text = "Will create complaint in a second..."
+                    handler.postDelayed({
+                        val ft = activity!!.supportFragmentManager.beginTransaction()
+                        ft.replace(R.id.content_frame, BarcodeFragment())
+                        ft.commit()
+                        statusText.text = "Ready"
                     }, 1500)
                 }, 1500)
             }
