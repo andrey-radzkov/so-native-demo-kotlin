@@ -4,6 +4,9 @@ import android.Manifest
 import android.app.PendingIntent
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.location.Geocoder
 import android.os.Build
 import android.os.Bundle
@@ -25,8 +28,10 @@ import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.gms.maps.model.PolylineOptions
 import java.util.Locale
 
 
@@ -116,23 +121,48 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
             val goretskogo = "ул Горецкого 51, Минск"
             val sharangovicha = "ул Шаранговича 52, Минск"
             val zhukova = "ул Жукова 29, Минск"
+            val supplyon = "Ludwigstraße 49, 85399 Hallbergmoos, Германия"
 
 
             val minskSharangovicha = getCoordinateByAddress(sharangovicha)
             val minskZhukova = getCoordinateByAddress(zhukova)
             val minskGoretskogo = getCoordinateByAddress(goretskogo)
-            if (minskSharangovicha != null) {
+            val germanySupplyon = getCoordinateByAddress(supplyon)
+
+            if (minskSharangovicha != null && minskZhukova != null) {
+                mMap.addPolyline(PolylineOptions().add(minskSharangovicha, minskZhukova)
+                        .width(4F)
+                        .color(Color.RED))
+            }
+            if (minskGoretskogo != null && minskZhukova != null) {
+                mMap.addPolyline(PolylineOptions().add(minskGoretskogo, minskZhukova)
+                        .width(4F)
+                        .color(Color.BLUE))
+            }
+            if (germanySupplyon != null && minskZhukova != null) {
+                mMap.addPolyline(PolylineOptions().add(germanySupplyon, minskZhukova)
+                        .width(4F)
+                        .color(Color.BLUE))
+            }
+            minskSharangovicha?.let {
                 mMap.addMarker(MarkerOptions().position(minskSharangovicha).title(sharangovicha))
                 mGeofenceList.add(getGeofence(sharangovicha, minskSharangovicha))
             }
-            if (minskZhukova != null) {
-                mMap.addMarker(MarkerOptions().position(minskZhukova).title(zhukova))
+            minskZhukova?.let {
+                mMap.addMarker(MarkerOptions().position(minskZhukova).title(zhukova)
+                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.epam_logo, 96, 96))))
                 mGeofenceList.add(getGeofence("Epam, Minsk", minskZhukova))
             }
-            if (minskGoretskogo != null) {
+            minskGoretskogo?.let {
                 mMap.addMarker(MarkerOptions().position(minskGoretskogo).title(goretskogo))
                 mGeofenceList.add(getGeofence("Home", minskGoretskogo))
                 mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(minskGoretskogo, 11.0f))
+            }
+            germanySupplyon?.let {
+                mMap.addMarker(MarkerOptions().position(germanySupplyon).title(supplyon)
+                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.so_logo, 96, 96))))
+
+                mGeofenceList.add(getGeofence("SupplyOn AG", germanySupplyon))
             }
 
 
@@ -168,4 +198,11 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
         }
         return null
     }
+
+    fun resizeMapIcons(id: Int, width: Int, height: Int): Bitmap {
+        val imageBitmap: Bitmap = BitmapFactory.decodeResource(getResources(), id)
+        val resizedBitmap: Bitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false)
+        return resizedBitmap;
+    }
+
 }
