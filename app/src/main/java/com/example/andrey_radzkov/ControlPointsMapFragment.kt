@@ -164,6 +164,10 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
 
                 mGeofenceList.add(getGeofence("SupplyOn AG", germanySupplyon))
             }
+            mMap.setOnMarkerClickListener { marker ->
+                println(marker.title)
+                false
+            }
 
 
             if (checkPermission()) {
@@ -202,7 +206,7 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
     fun resizeMapIcons(id: Int, width: Int, height: Int): Bitmap {
         val imageBitmap: Bitmap = BitmapFactory.decodeResource(getResources(), id)
         val resizedBitmap: Bitmap = Bitmap.createScaledBitmap(imageBitmap, width, height, false)
-        return resizedBitmap;
+        return resizedBitmap
     }
 
 }
