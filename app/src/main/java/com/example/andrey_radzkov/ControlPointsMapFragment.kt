@@ -19,6 +19,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.example.andrey_radzkov.model.Address
 import com.example.andrey_radzkov.service.Constants
 import com.example.andrey_radzkov.service.GeofenceTransitionsIntentService
 import com.google.android.gms.location.Geofence
@@ -120,58 +121,46 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
         mMap = googleMap
         val handler = Handler()
         handler.postDelayed({
-            val goretskogo = "ул Горецкого 51, Минск"
-            val sharangovicha = "ул Шаранговича 52, Минск"
-            val zhukova = "ул Жукова 29, Минск"
-            val supplyon = "Ludwigstraße 49, 85399 Hallbergmoos, Германия"
 
+            val allAddresses = arrayOf(
+                    Address("ул Горецкого 51, Минск", "Home"),
+                    Address("ул Шаранговича 52, Минск", "Some point"),
+                    Address("ул Жукова 29, Минск", "Epam, Minsk", R.drawable.epam_logo),
+                    Address("ул Притыцкого 29, Минск", "Epam 2, Minsk", R.drawable.epam_logo),
+                    Address("Ludwigstraße 49, 85399 Hallbergmoos, Германия", "SupplyOn AG", R.drawable.so_logo),
+                    Address("Robert-Bosch-Platz 1, 70839 Gerlingen, Германия", "Bosch")
+            )
 
-            val minskSharangovicha = getCoordinateByAddress(sharangovicha)
-            val minskZhukova = getCoordinateByAddress(zhukova)
-            val minskGoretskogo = getCoordinateByAddress(goretskogo)
-            val germanySupplyon = getCoordinateByAddress(supplyon)
+            val addressToCoordinate = allAddresses.map { address ->
+                val addressCoordinate = getCoordinateByAddress(address.street)
+                addressCoordinate?.let {
+                    val marker = MarkerOptions().position(addressCoordinate).title(address.title)
+                    address.logo?.let {
+                        marker.icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(address.logo, 96, 96)))
+                    }
+                    mMap.addMarker(marker)
+                    mGeofenceList.add(getGeofence(address.title, addressCoordinate))
+                }
+                address.title to addressCoordinate
+            }.toMap()
+            addressToCoordinate.get("Home")?.let {
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(it, 11.0f))
+            }
 
-            if (minskSharangovicha != null && minskZhukova != null) {
-                mMap.addPolyline(PolylineOptions().add(minskSharangovicha, minskZhukova)
+            val homeCoordinate = addressToCoordinate.get("Home")
+            val epamCoordinate = addressToCoordinate.get("Epam, Minsk")
+            if (homeCoordinate != null && epamCoordinate != null) {
+                mMap.addPolyline(PolylineOptions().add(homeCoordinate, epamCoordinate)
                         .width(4F)
                         .color(Color.RED))
             }
-            if (minskGoretskogo != null && minskZhukova != null) {
-                mMap.addPolyline(PolylineOptions().add(minskGoretskogo, minskZhukova)
-                        .width(4F)
-                        .color(Color.BLUE))
-            }
-            if (germanySupplyon != null && minskZhukova != null) {
-                mMap.addPolyline(PolylineOptions().add(germanySupplyon, minskZhukova)
-                        .width(4F)
-                        .color(Color.BLUE))
-            }
-            minskSharangovicha?.let {
-                mMap.addMarker(MarkerOptions().position(minskSharangovicha).title(sharangovicha))
-                mGeofenceList.add(getGeofence(sharangovicha, minskSharangovicha))
-            }
-            minskZhukova?.let {
-                mMap.addMarker(MarkerOptions().position(minskZhukova).title(zhukova)
-                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.epam_logo, 96, 96))))
-                mGeofenceList.add(getGeofence("Epam, Minsk", minskZhukova))
-            }
-            minskGoretskogo?.let {
-                mMap.addMarker(MarkerOptions().position(minskGoretskogo).title(goretskogo))
-                mGeofenceList.add(getGeofence("Home", minskGoretskogo))
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(minskGoretskogo, 11.0f))
-            }
-            germanySupplyon?.let {
-                mMap.addMarker(MarkerOptions().position(germanySupplyon).title(supplyon)
-                        .icon(BitmapDescriptorFactory.fromBitmap(resizeMapIcons(R.drawable.so_logo, 96, 96))))
 
-                mGeofenceList.add(getGeofence("SupplyOn AG", germanySupplyon))
-            }
             mMap.setOnMarkerClickListener { marker ->
                 var added = false
                 selectedMarker?.let {
-                    mMap.addPolyline(PolylineOptions().add(selectedMarker!!.position, marker.position)
+                    mMap.addPolyline(PolylineOptions().add(it.position, marker.position)
                             .width(4F)
-                            .color(Color.GRAY))
+                            .color(Color.BLUE))
                     added = true
                 }.also {
                     selectedMarker = marker
