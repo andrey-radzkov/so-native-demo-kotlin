@@ -167,12 +167,17 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
                 mGeofenceList.add(getGeofence("SupplyOn AG", germanySupplyon))
             }
             mMap.setOnMarkerClickListener { marker ->
+                var added = false
                 selectedMarker?.let {
                     mMap.addPolyline(PolylineOptions().add(selectedMarker!!.position, marker.position)
                             .width(4F)
                             .color(Color.GRAY))
+                    added = true
                 }.also {
                     selectedMarker = marker
+                }
+                if (added) {
+                    selectedMarker = null
                 }
                 false
             }
