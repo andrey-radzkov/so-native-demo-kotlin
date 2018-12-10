@@ -30,6 +30,7 @@ import com.google.android.gms.maps.MapView
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.gms.maps.model.PolylineOptions
 import java.util.Locale
@@ -46,6 +47,7 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
 
     var mMapView: MapView? = null
     var geocoder: Geocoder? = null
+    var selectedMarker: Marker? = null
     private lateinit var mMap: GoogleMap
     private lateinit var mGeofenceList: ArrayList<Geofence>
 
@@ -165,7 +167,13 @@ class ControlPointsMapFragment : Fragment(), OnMapReadyCallback {
                 mGeofenceList.add(getGeofence("SupplyOn AG", germanySupplyon))
             }
             mMap.setOnMarkerClickListener { marker ->
-                println(marker.title)
+                selectedMarker?.let {
+                    mMap.addPolyline(PolylineOptions().add(selectedMarker!!.position, marker.position)
+                            .width(4F)
+                            .color(Color.GRAY))
+                }.also {
+                    selectedMarker = marker
+                }
                 false
             }
 
