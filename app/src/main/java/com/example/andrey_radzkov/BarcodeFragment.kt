@@ -1,11 +1,14 @@
 package com.example.andrey_radzkov
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.location.LocationManager
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.ActivityCompat
@@ -24,7 +27,8 @@ class BarcodeFragment : Fragment() {
 
 
     private val RC_BARCODE_CAPTURE = 9001
-    private lateinit var barcodeScannedValue: TextView
+    private lateinit var barcodeScannedLabel: TextView
+    private lateinit var barcodeScannedCoordinate: TextView
     private lateinit var complaintImage: ImageView
     private var notificationService: NotificationService = NotificationService()
 
@@ -36,7 +40,8 @@ class BarcodeFragment : Fragment() {
         val rootView = inflater.inflate(R.layout.activity_barcode, container, false)
         this.activity!!.title = "Complaint in three click"
 
-        barcodeScannedValue = rootView.findViewById(R.id.barcodeScannedValue)
+        barcodeScannedLabel = rootView.findViewById(R.id.barcodeScannedLabel)
+        barcodeScannedCoordinate = rootView.findViewById(R.id.barcodeScannedCoordinate)
         complaintImage = rootView.findViewById(R.id.complaintImage)
 
         val intent2 = Intent(activity, BarcodeScanActivity::class.java)
@@ -53,23 +58,30 @@ class BarcodeFragment : Fragment() {
     }
 
 
+    @SuppressLint("MissingPermission")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (requestCode == RC_BARCODE_CAPTURE) {
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null) {
                     verifyStoragePermissions(activity!!)
+
+                    val locationManager: LocationManager? = activity!!.getSystemService(Context.LOCATION_SERVICE) as LocationManager?
+                    val lastKnownLocation = locationManager!!.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
                     val barcodeValue = data.getStringExtra("ScannedBarcodeValue")
-                    barcodeScannedValue.text = barcodeValue
+                    barcodeScannedLabel.text = "Scanned code: $barcodeValue"
+                    barcodeScannedCoordinate.text = "Coordinate: " + lastKnownLocation.longitude + ", " + lastKnownLocation.latitude
                     val imageUri: Uri = data.getParcelableExtra("ImageBitmap")
                     val options = BitmapFactory.Options()
                     options.inPreferredConfig = Bitmap.Config.ARGB_8888
                     val imageBitmap = BitmapFactory.decodeFile(imageUri.path, options)
                     complaintImage.setImageBitmap(imageBitmap)
+
                 } else {
-                    barcodeScannedValue.setText("Empty data came from barcode")
+                    barcodeScannedLabel.setText("Empty data came from barcode")
                 }
             } else {
-                barcodeScannedValue.setText("Error occured. Feel free to debug")
+                barcodeScannedLabel.setText("Error occured. Feel free to debug")
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data)
