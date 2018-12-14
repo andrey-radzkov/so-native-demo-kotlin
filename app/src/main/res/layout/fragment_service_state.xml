@@ -18,7 +18,7 @@
         android:text="Login"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorAccent"
-        android:textSize="32sp"
+        android:textSize="48sp"
         android:textStyle="bold" />
     <!--TODO: flex layout-->
     <Button
@@ -34,7 +34,7 @@
         android:text="SLM"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textColor="@color/colorAccent"
-        android:textSize="32sp"
+        android:textSize="48sp"
         android:textStyle="bold" />
 
 
