@@ -70,7 +70,11 @@ class BarcodeFragment : Fragment() {
 
                     val barcodeValue = data.getStringExtra("ScannedBarcodeValue")
                     barcodeScannedLabel.text = "Scanned code: $barcodeValue"
-                    barcodeScannedCoordinate.text = "Coordinate: " + lastKnownLocation.longitude + ", " + lastKnownLocation.latitude
+                    if (lastKnownLocation != null && lastKnownLocation.longitude != null && lastKnownLocation.latitude != null) {
+                        barcodeScannedCoordinate.text = "Coordinate: " + lastKnownLocation.longitude + ", " + lastKnownLocation.latitude
+                    } else {
+                        barcodeScannedCoordinate.text = ""
+                    }
                     val imageUri: Uri = data.getParcelableExtra("ImageBitmap")
                     val options = BitmapFactory.Options()
                     options.inPreferredConfig = Bitmap.Config.ARGB_8888
