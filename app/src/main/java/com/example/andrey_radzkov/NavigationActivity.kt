@@ -13,32 +13,22 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.webkit.WebView
 import com.example.andrey_radzkov.service.NotificationService
 import kotlinx.android.synthetic.main.navigation_activity.drawer_layout
 import kotlinx.android.synthetic.main.navigation_activity.nav_view
 import kotlinx.android.synthetic.main.navigation_app_bar.fab
 import kotlinx.android.synthetic.main.navigation_app_bar.toolbar
-import android.webkit.WebViewClient
-
-
 
 
 open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var notificationService: NotificationService = NotificationService()
-    private lateinit var webView: WebView
     @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.navigation_activity)
         setSupportActionBar(toolbar)
 
-//        webView = findViewById(R.id.webView1)
-//        webView.settings.javaScriptEnabled = true
-//        webView.webViewClient = WebViewClient()
-//        webView.loadUrl("http://epbyminw3508.minsk.epam.com:19080/logon/logonServlet")
-//        webView.loadUrl("https://google.com")
 
         fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
