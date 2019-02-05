@@ -1,5 +1,6 @@
 package com.example.andrey_radzkov
 
+import android.annotation.SuppressLint
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
@@ -12,6 +13,7 @@ import android.webkit.WebViewClient
 import android.widget.ListView
 import com.example.andrey_radzkov.model.BlogListViewAdapter
 import com.example.andrey_radzkov.model.getArticles
+import kotlinx.android.synthetic.main.nwl_request_list_content.view.content
 
 
 /**
@@ -37,14 +39,26 @@ class BlogFragment : Fragment() {
     }
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //you can set the title for your toolbar here for different fragments different titles
         activity!!.title = "Supplyon"
-        webView =   activity!!.findViewById(R.id.webView1)
+        webView = activity!!.findViewById(R.id.webView1)
         webView.settings.javaScriptEnabled = true
-        webView.webViewClient = WebViewClient()
-//        webView.loadUrl("http://epbyminw3508.minsk.epam.com:19080/logon/logonServlet")
-        webView.loadUrl("https://google.com")
+        webView.webViewClient = MyWebViewClient(lv!!, webView)
+        webView.loadUrl("http://epbyminw3508.minsk.epam.com:19080/logon/logonServlet")
+    }
+
+    private class MyWebViewClient(private var lv: ListView, private var webView: WebView) : WebViewClient() {
+
+        override fun onPageFinished(view: WebView, url: String) {
+            view.content
+            if (url.startsWith("http://epbyminw3508.minsk.epam.com:18080")) {
+                // we need to exit here
+                lv.visibility = android.view.View.VISIBLE
+                webView.visibility = android.view.View.GONE
+            }
+        }
     }
 }

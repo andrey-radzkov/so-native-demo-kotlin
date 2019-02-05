@@ -1,6 +1,5 @@
 package com.example.andrey_radzkov
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.NavigationView
@@ -23,7 +22,6 @@ import kotlinx.android.synthetic.main.navigation_app_bar.toolbar
 open class NavigationActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
     private var notificationService: NotificationService = NotificationService()
-    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.navigation_activity)
