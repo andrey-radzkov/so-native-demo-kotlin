@@ -56,9 +56,7 @@ class BlogFragment : Fragment() {
     private class MyWebViewClient(private var lv: ListView, private var webView: WebView, private var activity: FragmentActivity) : WebViewClient() {
 
         override fun onPageFinished(view: WebView, url: String) {
-//            if (url.startsWith("http://epbyminw2336.minsk.epam.com/iam")) {
-//                webView.loadUrl("http://epbyminw2336.minsk.epam.com/login/mobile/logonResult")
-//            } else
+
             if (url.startsWith("http://epbyminw2336.minsk.epam.com/login/mobile/logonResult")) {
                 webView.evaluateJavascript("(function(){return window.document.body.innerText})();"
                 ) { token ->
