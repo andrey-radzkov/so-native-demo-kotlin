@@ -61,10 +61,6 @@
         <activity android:name=".BarcodeScanActivity"
             android:label="SupplyOn: Barcode scanning"></activity>
 
-        <service
-            android:name=".service.GeofenceTransitionsIntentService"
-            android:exported="true" />
-
         <activity
             android:name=".ConnectRequestListActivity"
             android:label="@string/title_nwl_request_list"

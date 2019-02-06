@@ -1,10 +1,13 @@
 package com.example.andrey_radzkov
 
 import android.annotation.SuppressLint
+import android.app.AlertDialog
+import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +16,8 @@ import android.webkit.WebViewClient
 import android.widget.ListView
 import com.example.andrey_radzkov.model.BlogListViewAdapter
 import com.example.andrey_radzkov.model.getArticles
-import kotlinx.android.synthetic.main.nwl_request_list_content.view.content
+import okhttp3.OkHttpClient
+import okhttp3.Request
 
 
 /**
@@ -33,7 +37,6 @@ class BlogFragment : Fragment() {
         lv = inflate.findViewById(R.id.lv) as ListView
         lv!!.adapter = adapter
         lv!!.visibility = android.view.View.GONE
-//        fab.onClickListener(View.OnClickListener { lv!!.setAdapter(adapter) })
 
         return inflate
     }
@@ -46,18 +49,64 @@ class BlogFragment : Fragment() {
         activity!!.title = "Supplyon"
         webView = activity!!.findViewById(R.id.webView1)
         webView.settings.javaScriptEnabled = true
-        webView.webViewClient = MyWebViewClient(lv!!, webView)
-        webView.loadUrl("http://epbyminw3508.minsk.epam.com:19080/logon/logonServlet")
+        webView.webViewClient = MyWebViewClient(lv!!, webView, activity!!)
+        webView.loadUrl("http://epbyminw2336.minsk.epam.com/login/mobile/mobileLogon")
     }
 
-    private class MyWebViewClient(private var lv: ListView, private var webView: WebView) : WebViewClient() {
+    private class MyWebViewClient(private var lv: ListView, private var webView: WebView, private var activity: FragmentActivity) : WebViewClient() {
 
         override fun onPageFinished(view: WebView, url: String) {
-            view.content
-            if (url.startsWith("http://epbyminw3508.minsk.epam.com:18080")) {
+//            if (url.startsWith("http://epbyminw2336.minsk.epam.com/iam")) {
+//                webView.loadUrl("http://epbyminw2336.minsk.epam.com/login/mobile/logonResult")
+//            } else
+            if (url.startsWith("http://epbyminw2336.minsk.epam.com/login/mobile/logonResult")) {
+                webView.evaluateJavascript("(function(){return window.document.body.innerText})();"
+                ) { token ->
+                    val tokenWithoutQuates = token.replace("\"", "")
+                    val messageCount = GetSocialMessageTask(tokenWithoutQuates).execute()
+                    lv.visibility = android.view.View.VISIBLE
+                    webView.visibility = android.view.View.GONE
+                    val dialog = getAlertDialog(tokenWithoutQuates)
+
+                    dialog.setMessage(messageCount.get())
+                    dialog.show()
+                }
+            }
+        }
+
+        private fun getAlertDialog(token: String): AlertDialog {
+            val builder = AlertDialog.Builder(activity)
+            builder.setTitle("Messages: ")
+            builder.setPositiveButton("Close") { dialog2, id ->
                 // we need to exit here
-                lv.visibility = android.view.View.VISIBLE
-                webView.visibility = android.view.View.GONE
+                webView.loadUrl(" http://epbyminw2336.minsk.epam.com/logon/LogoutServlet")
+                dialog2.dismiss()
+            }
+            builder.setNegativeButton("Recall") { dialog2, id ->
+                val messageCount2 = GetSocialMessageTask(token).execute()
+                dialog2.dismiss()
+                val dialog = getAlertDialog(token)
+                dialog.setMessage(messageCount2.get())
+                dialog.show()
+            }
+            val dialog = builder.create()
+            return dialog
+        }
+    }
+
+    private class GetSocialMessageTask(val token: String) : AsyncTask<Void, Void, String>() {
+        override fun doInBackground(vararg urls: Void): String {
+
+            val client = OkHttpClient()
+            val request = Request.Builder()
+                    .url("http://epbyminw3508.minsk.epam.com:8080/social/user/messages/unread-messages-count-test?access_token=" + token)
+                    .build()
+            try {
+                client.newCall(request).execute().use { response ->
+                    return "count: " + response.body()!!.string()
+                }
+            } catch (e: Exception) {
+                return "error" + Math.random()
             }
         }
     }
