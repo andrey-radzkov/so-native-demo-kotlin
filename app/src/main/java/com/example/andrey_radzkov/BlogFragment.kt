@@ -2,6 +2,7 @@ package com.example.andrey_radzkov
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.net.http.SslError
 import android.os.AsyncTask
 import android.os.Build
 import android.os.Bundle
@@ -11,6 +12,8 @@ import android.support.v4.app.FragmentActivity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.SslErrorHandler
+import android.webkit.WebChromeClient
 import android.webkit.WebView
 import android.webkit.WebViewClient
 import android.widget.ListView
@@ -50,26 +53,31 @@ class BlogFragment : Fragment() {
         webView = activity!!.findViewById(R.id.webView1)
         webView.settings.javaScriptEnabled = true
         webView.webViewClient = MyWebViewClient(lv!!, webView, activity!!)
-        webView.loadUrl("http://epbyminw2336.minsk.epam.com/login/mobile/mobileLogon")
+        webView.setWebChromeClient(WebChromeClient())
+        webView.loadUrl("https://google.com")
+//        webView.loadUrl("https://se.com")
     }
 
-    private class MyWebViewClient(private var lv: ListView, private var webView: WebView, private var activity: FragmentActivity) : WebViewClient() {
+    public class MyWebViewClient(private var lv: ListView?, private var webView: WebView, private var activity: FragmentActivity) : WebViewClient() {
 
         override fun onPageFinished(view: WebView, url: String) {
-
-            if (url.startsWith("http://epbyminw2336.minsk.epam.com/login/mobile/logonResult")) {
-                webView.evaluateJavascript("(function(){return window.document.body.innerText})();"
-                ) { token ->
-                    val tokenWithoutQuates = token.replace("\"", "")
-                    val messageCount = GetSocialMessageTask(tokenWithoutQuates).execute()
-                    lv.visibility = android.view.View.VISIBLE
-                    webView.visibility = android.view.View.GONE
-                    val dialog = getAlertDialog(tokenWithoutQuates)
-
-                    dialog.setMessage(messageCount.get())
-                    dialog.show()
-                }
+//
+            webView.evaluateJavascript("function hello(){alert('hello $url from custom js function. Selected: ' + document.querySelector('.radio-button .radio-button-input:checked').getAttribute('id'));} hello();"
+            ) { token ->
+//                    val tokenWithoutQuates = token.replace("\"", "")
+//                    val messageCount = GetSocialMessageTask(tokenWithoutQuates).execute()
+//                    lv.visibility = android.view.View.VISIBLE
+//                    webView.visibility = android.view.View.GONE
+//                    val dialog = getAlertDialog(tokenWithoutQuates)
+//
+//                    dialog.setMessage(messageCount.get())
+//                    dialog.show()
             }
+        }
+
+        override fun onReceivedSslError(view: WebView?, handler: SslErrorHandler, er: SslError?) {
+            handler.proceed()
+            // Ignore SSL certificate errors
         }
 
         private fun getAlertDialog(token: String): AlertDialog {

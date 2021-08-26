@@ -6,20 +6,25 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebChromeClient
+import android.webkit.WebView
 import android.widget.Button
+import android.widget.ListView
 import android.widget.RelativeLayout
-import android.widget.TextView
 
 
 /**
  * @author Radzkov Andrey
  */
 class ServiceStateFragment : Fragment() {
+    var lv: ListView? = null
+
     lateinit var buttonSwitchMode: Button
     lateinit var buttonSwitchBackground: Button
     lateinit var buttonLogin: Button
     lateinit var buttonSlm: Button
     lateinit var layout: RelativeLayout
+    private lateinit var webView: WebView
     var isBlack: Boolean = false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -51,6 +56,12 @@ class ServiceStateFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //you can set the title for your toolbar here for different fragments different titles
         activity!!.title = "Services state"
+        webView = activity!!.findViewById(R.id.webView2)
+        webView.settings.javaScriptEnabled = true
+        webView.webViewClient = BlogFragment.MyWebViewClient(null, webView, activity!!)
+        webView.setWebChromeClient(WebChromeClient())
+        webView.loadUrl("https://shop.exchange.se.com/api/internal/storefront/v1/cta?productId=77268&type=BUY")
+
         if (savedInstanceState != null) {
             val rotationX = savedInstanceState.getFloat("rotationX")
             val color = savedInstanceState.getInt("color")
